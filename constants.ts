@@ -60,8 +60,8 @@ export const STORY_SLIDES: StorySlide[] = [
     subContent: "Ouça com carinho 💙",
     duration: 10,
     bgColor: "bg-gradient-to-br from-blue-800 to-black",
-    link: "https://youtu.be/vCPCfvXjXIs",
-    linkText: "Ver Clipe"
+    link: "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q",
+    linkText: "Ouvir Playlist"
   }
 ];
 

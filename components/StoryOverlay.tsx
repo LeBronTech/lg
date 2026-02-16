@@ -94,14 +94,14 @@ const StoryOverlay: React.FC<StoryOverlayProps> = ({ isOpen, onClose }) => {
             <X size={24} />
         </button>
 
-        {/* Touch Areas for Navigation */}
+        {/* Touch Areas for Navigation - z-10 */}
         <div className="absolute inset-0 flex z-10">
             <div className="w-1/3 h-full" onClick={goToPrev}></div>
             <div className="w-2/3 h-full" onClick={goToNext}></div>
         </div>
 
-        {/* Content */}
-        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative z-0 pointer-events-none">
+        {/* Content - z-20 (Above touch areas) but pointer-events-none (so taps fall through to navigation), EXCEPT for button which is pointer-events-auto */}
+        <div className="flex-1 flex flex-col items-center justify-center p-8 text-center relative z-20 pointer-events-none">
             {currentSlide.type === 'photo' && currentSlide.image && (
                  <div className="w-full aspect-[3/4] rounded-2xl overflow-hidden shadow-2xl mb-8 animate-slide-up">
                     <img src={currentSlide.image} alt="Story" className="w-full h-full object-cover" />
