@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlayCircle, Share2, MoreHorizontal, X } from 'lucide-react';
 import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
 import MusicBar from './components/MusicBar';
-import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget } from './components/Widgets';
+import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget, ContractWidget } from './components/Widgets';
 import StoryOverlay from './components/StoryOverlay';
 
 const FloatingHearts = () => {
@@ -114,7 +114,7 @@ const App: React.FC = () => {
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 blur-2xl opacity-20 rounded-full"></div>
                 <div className="relative bg-[#1A1A1A]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/5">
                     <div 
-                        className="w-full aspect-square bg-cover bg-center cursor-pointer group" 
+                        className="w-full aspect-square bg-cover bg-top cursor-pointer group" 
                         style={{ backgroundImage: `url(${heroImage})` }}
                         onClick={() => setShowFullHero(true)}
                     >
@@ -137,6 +137,7 @@ const App: React.FC = () => {
             <MapWidget />
             <WordGameWidget />
             <GalleryWidget />
+            <ContractWidget />
 
         </div>
 

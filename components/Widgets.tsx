@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES } from '../constants';
-import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar } from 'lucide-react';
+import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2 } from 'lucide-react';
 import { TimelineEvent } from '../types';
 
 // --- Relationship Timer Component ---
@@ -184,9 +184,9 @@ export const MapWidget: React.FC = () => {
             {/* Dark Map Background Image (Simulated) */}
             <div className="absolute inset-0 z-0">
                 <img 
-                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" // Fallback generic, replaced with CSS pattern below
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" 
                     alt="Map Background"
-                    className="w-full h-full object-cover opacity-10 hidden" // Hiding generic, using CSS gradient/pattern
+                    className="w-full h-full object-cover opacity-10 hidden" 
                 />
                 {/* CSS Dark Map Pattern */}
                 <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
@@ -247,7 +247,7 @@ export const WordGameWidget: React.FC = () => {
         } else {
             setGuess("");
             // Simple visual shake or feedback could go here
-            alert("Tente novamente! Dica: Dura para sempre...");
+            alert("Tente novamente! Dica: É o que eu quero com você...");
         }
     };
 
@@ -257,16 +257,17 @@ export const WordGameWidget: React.FC = () => {
             <p className="text-blue-200 text-xs mb-4">Adivinhe a palavra secreta</p>
 
             {status === 'won' ? (
-                <div className="py-4 animate-slide-up">
-                    <Unlock className="mx-auto text-yellow-400 mb-2" size={32} />
-                    <p className="text-xl font-bold text-white">Você acertou! 🎉</p>
-                    <p className="text-sm text-white/80">A resposta é {WORD_GAME_SECRET}</p>
+                <div className="py-4 animate-slide-up bg-white/5 rounded-xl border border-white/10">
+                    <Heart className="mx-auto text-pink-500 fill-pink-500 mb-2 animate-bounce" size={40} />
+                    <p className="text-xl font-bold text-white mb-1">Parabéns!</p>
+                    <p className="text-lg text-blue-200 font-semibold">Você ganhou um beijo! 💋</p>
+                    <p className="text-xs text-gray-400 mt-2">A resposta era {WORD_GAME_SECRET}</p>
                 </div>
             ) : (
                 <div className="space-y-3">
                     <div className="flex justify-center gap-1 mb-2">
                         {WORD_GAME_SECRET.split('').map((_, i) => (
-                            <div key={i} className="w-6 h-8 border-b-2 border-white/30 flex items-center justify-center text-sm font-bold">
+                            <div key={i} className="w-8 h-10 border-b-2 border-white/30 flex items-center justify-center text-lg font-bold">
                                 {guess[i] || ""}
                             </div>
                         ))}
@@ -297,7 +298,7 @@ export const WordGameWidget: React.FC = () => {
 // --- Gallery Widget ---
 export const GalleryWidget: React.FC = () => {
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-24 border border-white/5">
+        <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5">
             <h3 className="text-white font-bold text-lg mb-4 flex justify-between items-center">
                 Galeria
                 <Camera size={16} className="text-gray-400" />
@@ -313,5 +314,136 @@ export const GalleryWidget: React.FC = () => {
                 ))}
             </div>
         </div>
+    );
+};
+
+// --- Contract Widget ---
+export const ContractWidget: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [signatures, setSignatures] = useState({ leo: false, ge: false });
+    const [scanning, setScanning] = useState({ leo: false, ge: false });
+
+    const handleSign = (person: 'leo' | 'ge') => {
+        if (signatures[person] || scanning[person]) return;
+
+        setScanning(prev => ({ ...prev, [person]: true }));
+
+        // Simulate scanning delay
+        setTimeout(() => {
+            setScanning(prev => ({ ...prev, [person]: false }));
+            setSignatures(prev => ({ ...prev, [person]: true }));
+        }, 1500);
+    };
+
+    const allSigned = signatures.leo && signatures.ge;
+
+    return (
+        <>
+            <div 
+                className="bg-gradient-to-br from-gray-900 to-black rounded-2xl p-5 mb-24 border border-white/10 cursor-pointer hover:border-blue-500/50 transition-colors relative overflow-hidden group"
+                onClick={() => setIsOpen(true)}
+            >
+                <div className="absolute top-0 right-0 p-3 opacity-10 group-hover:opacity-20 transition-opacity">
+                    <FileSignature size={60} className="text-white" />
+                </div>
+                <div className="flex items-center gap-3 mb-2">
+                    <div className="bg-blue-600/20 p-2 rounded-lg">
+                        <Fingerprint className="text-blue-400" size={24} />
+                    </div>
+                    <h3 className="text-white font-bold text-lg">Contrato de Namoro</h3>
+                </div>
+                <p className="text-gray-400 text-sm mb-3">Documento oficial de compromisso eterno.</p>
+                <div className="flex items-center gap-2 text-xs font-bold text-blue-400">
+                    <span>TOQUE PARA ASSINAR</span>
+                    <Unlock size={12} />
+                </div>
+            </div>
+
+            {/* Contract Modal */}
+            {isOpen && (
+                <div className="fixed inset-0 z-[80] bg-black/95 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200">
+                    <button 
+                        onClick={() => setIsOpen(false)}
+                        className="absolute top-6 right-6 text-white/50 hover:text-white"
+                    >
+                        <X size={24} />
+                    </button>
+
+                    <div className="w-full max-w-sm bg-[#fff] text-black rounded-sm p-8 shadow-2xl relative rotate-1 transform transition-transform">
+                        {/* Paper Texture Effect */}
+                        <div className="absolute inset-0 bg-[#f4e4bc] opacity-20 pointer-events-none mix-blend-multiply"></div>
+                        
+                        <div className="relative z-10 flex flex-col items-center text-center h-full">
+                            <h2 className="font-serif text-2xl font-bold mb-1 uppercase tracking-widest border-b-2 border-black pb-2 w-full">Contrato</h2>
+                            <p className="font-serif text-xs italic mb-6">De Amor & Compromisso</p>
+
+                            <div className="text-left w-full text-sm font-serif leading-relaxed space-y-2 mb-8 opacity-90">
+                                <p>Eu, <strong>Léo</strong>, e eu, <strong>Gê</strong>, prometemos solenemente:</p>
+                                <ul className="list-disc pl-4 space-y-1">
+                                    <li>Nos amar incondicionalmente.</li>
+                                    <li>Ter paciência nos dias difíceis.</li>
+                                    <li>Compartilhar sonhos e memes.</li>
+                                    <li>Ser o porto seguro um do outro.</li>
+                                    <li>Construir uma eternidade juntos.</li>
+                                </ul>
+                            </div>
+
+                            {/* Signatures Area */}
+                            <div className="w-full flex justify-between items-end mt-auto gap-4">
+                                {/* Léo's Signature */}
+                                <div className="flex flex-col items-center flex-1">
+                                    <div 
+                                        className={`w-16 h-20 border-2 rounded-lg mb-2 flex items-center justify-center cursor-pointer transition-all relative overflow-hidden ${signatures.leo ? 'border-blue-600 bg-blue-50' : 'border-dashed border-gray-400 hover:bg-gray-50'}`}
+                                        onMouseDown={() => handleSign('leo')}
+                                        onTouchStart={() => handleSign('leo')}
+                                    >
+                                        {signatures.leo ? (
+                                            <Fingerprint size={40} className="text-blue-600 opacity-80" />
+                                        ) : scanning.leo ? (
+                                            <div className="absolute inset-0 bg-blue-200 animate-pulse"></div>
+                                        ) : (
+                                            <span className="text-[10px] text-gray-400 text-center px-1">Toque digital</span>
+                                        )}
+                                    </div>
+                                    <div className="h-px w-full bg-black mb-1"></div>
+                                    <span className="font-serif text-xs font-bold uppercase">Léo</span>
+                                </div>
+
+                                {/* Gê's Signature */}
+                                <div className="flex flex-col items-center flex-1">
+                                    <div 
+                                        className={`w-16 h-20 border-2 rounded-lg mb-2 flex items-center justify-center cursor-pointer transition-all relative overflow-hidden ${signatures.ge ? 'border-pink-600 bg-pink-50' : 'border-dashed border-gray-400 hover:bg-gray-50'}`}
+                                        onMouseDown={() => handleSign('ge')}
+                                        onTouchStart={() => handleSign('ge')}
+                                    >
+                                        {signatures.ge ? (
+                                            <Fingerprint size={40} className="text-pink-600 opacity-80" />
+                                        ) : scanning.ge ? (
+                                            <div className="absolute inset-0 bg-pink-200 animate-pulse"></div>
+                                        ) : (
+                                            <span className="text-[10px] text-gray-400 text-center px-1">Toque digital</span>
+                                        )}
+                                    </div>
+                                    <div className="h-px w-full bg-black mb-1"></div>
+                                    <span className="font-serif text-xs font-bold uppercase">Gê</span>
+                                </div>
+                            </div>
+
+                            {allSigned && (
+                                <div className="absolute inset-0 z-20 flex items-center justify-center pointer-events-none">
+                                    <div className="bg-white/90 px-6 py-4 rounded-xl border-4 border-double border-green-600 transform -rotate-12 animate-in zoom-in duration-300 shadow-xl">
+                                        <div className="flex flex-col items-center text-green-700">
+                                            <CheckCircle2 size={40} className="mb-2" />
+                                            <span className="font-serif font-bold text-xl uppercase tracking-widest border-2 border-green-700 px-2 py-1">Oficializado</span>
+                                            <span className="text-[10px] mt-1 uppercase">{new Date().toLocaleDateString()}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };

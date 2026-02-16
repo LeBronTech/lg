@@ -90,13 +90,12 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
 ];
 
-// Locations approx: Shalom (North/Brasilia), Santa Maria (Middle), Valparaiso (South)
+// Locations approx:
 export const MAP_LOCATIONS: MapLocation[] = [
-  { id: 1, name: "Comunidade Shalom", status: 'dream', coords: { x: 45, y: 15 } }, // North
-  { id: 2, name: "Minha Casa (Santa Maria)", status: 'visited', coords: { x: 35, y: 45 } }, // Middle Left
-  { id: 3, name: "Igreja Santa Mãe de Deus", status: 'visited', coords: { x: 55, y: 50 } }, // Middle Right (1st Encontro)
-  { id: 4, name: "Nossa Sra. da Providência", status: 'visited', coords: { x: 40, y: 55 } }, // Middle (1st Beijo)
-  { id: 5, name: "Casa Dela (Valparaíso)", status: 'visited', coords: { x: 45, y: 80 } }, // South
+  { id: 2, name: "Comunidade Shalom", status: 'visited', coords: { x: 35, y: 45 } }, // Was Minha Casa
+  { id: 3, name: "Igreja Santa Mãe de Deus", status: 'visited', coords: { x: 55, y: 50 } }, 
+  { id: 4, name: "Nossa Sra. da Providência", status: 'visited', coords: { x: 40, y: 55 } }, 
+  { id: 5, name: "Retiro JSC", status: 'visited', coords: { x: 45, y: 80 } }, // Was Casa Dela
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
@@ -106,7 +105,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 4, url: IMAGES.hero, caption: "Nós dois" },
 ];
 
-export const WORD_GAME_SECRET = "ETERNIDADE";
+export const WORD_GAME_SECRET = "VIDA";
 
 export const LOVE_PHRASES = [
   "Mal posso esperar pelo dia em que 'você e eu' seremos 'nós' para sempre. 💙",
