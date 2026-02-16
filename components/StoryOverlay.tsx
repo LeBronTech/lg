@@ -125,11 +125,6 @@ const StoryOverlay: React.FC<StoryOverlayProps> = ({ isOpen, onClose }) => {
             )}
         </div>
 
-        {/* Branding Footer */}
-        <div className="pb-8 text-center text-white/50 text-xs font-bold uppercase tracking-widest">
-            LoveWrapped • 2024
-        </div>
-
       </div>
     </div>
   );

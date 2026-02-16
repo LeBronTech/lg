@@ -36,9 +36,9 @@ const MusicBar: React.FC = () => {
   return (
     <div className="bg-gradient-to-b from-[#1e1e1e] to-black rounded-3xl p-6 shadow-2xl mb-6 border border-white/5 relative overflow-hidden">
         
-      {/* Header - like Spotify 'Playing from' */}
-      <div className="flex justify-between items-center mb-4 text-[10px] font-bold text-gray-400 tracking-wider uppercase">
-        <span>PLAYING FROM PLAYLIST</span>
+      {/* Header - Updated as per request */}
+      <div className="flex justify-between items-center mb-4">
+        <span className="text-2xl font-bold text-blue-500 tracking-wide">Nossa música</span>
         <MoreHorizontalIcon />
       </div>
 

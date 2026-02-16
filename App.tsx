@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { PlayCircle, Share2, MoreHorizontal, X } from 'lucide-react';
-import { COUPLE_NAMES } from './constants';
+import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
 import MusicBar from './components/MusicBar';
 import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget } from './components/Widgets';
 import StoryOverlay from './components/StoryOverlay';
@@ -36,6 +36,52 @@ const FloatingHearts = () => {
     );
 };
 
+const CarouselCard = () => {
+    const [index, setIndex] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setIndex((prev) => (prev + 1) % LOVE_PHRASES.length);
+        }, 3000); // 3 seconds for better readability
+        return () => clearInterval(interval);
+    }, []);
+
+    return (
+        <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-6 mb-6 relative overflow-hidden group shadow-lg shadow-blue-900/20 min-h-[140px] flex flex-col justify-center">
+            <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
+            <h3 className="text-sm font-bold uppercase tracking-wider text-blue-200 mb-2 relative z-10">Mensagem especial</h3>
+            
+            <div className="relative h-16 w-full overflow-hidden">
+                {LOVE_PHRASES.map((phrase, i) => (
+                    <div 
+                        key={i}
+                        className={`absolute top-0 left-0 w-full transition-all duration-700 ease-in-out transform ${
+                            i === index 
+                                ? 'opacity-100 translate-x-0' 
+                                : i < index 
+                                    ? 'opacity-0 -translate-x-full' 
+                                    : 'opacity-0 translate-x-full'
+                        }`}
+                    >
+                        <p className="text-lg font-bold text-white leading-snug">
+                            "{phrase}"
+                        </p>
+                    </div>
+                ))}
+            </div>
+            
+            <div className="flex gap-1 mt-2">
+                {LOVE_PHRASES.map((_, i) => (
+                    <div 
+                        key={i} 
+                        className={`h-1 rounded-full transition-all duration-300 ${i === index ? 'w-4 bg-white' : 'w-1 bg-white/30'}`} 
+                    />
+                ))}
+            </div>
+        </div>
+    );
+};
+
 const App: React.FC = () => {
   const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [showFullHero, setShowFullHero] = useState(false);
@@ -52,7 +98,7 @@ const App: React.FC = () => {
 
         {/* Status Bar Fake */}
         <div className="w-full h-12 flex justify-between items-center px-6 text-xs font-bold text-blue-200/50 z-20 relative">
-             <span>9:41</span>
+             <span></span> {/* Removed Time */}
              <span className="text-blue-400">Futuro juntos 💙</span>
              <MoreHorizontal size={16} />
         </div>
@@ -83,17 +129,8 @@ const App: React.FC = () => {
                 </div>
             </div>
 
-            {/* Special Message Card */}
-            <div className="bg-gradient-to-r from-blue-600 to-blue-800 rounded-2xl p-6 mb-6 relative overflow-hidden group shadow-lg shadow-blue-900/20">
-                <div className="absolute -right-4 -top-4 w-24 h-24 bg-white/10 rounded-full blur-xl"></div>
-                <h3 className="text-sm font-bold uppercase tracking-wider text-blue-200 mb-2">Mensagem especial</h3>
-                <p className="text-lg font-bold text-white leading-snug mb-4">
-                    "Mal posso esperar pelo dia em que 'você e eu' seremos 'nós' para sempre. 💙"
-                </p>
-                <button className="bg-white text-blue-900 px-4 py-2 rounded-full text-xs font-bold shadow-lg hover:scale-105 transition-transform">
-                    Ler carta
-                </button>
-            </div>
+            {/* Special Message Carousel */}
+            <CarouselCard />
 
             {/* Widgets */}
             <TimelineWidget />

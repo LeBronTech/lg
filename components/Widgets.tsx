@@ -180,32 +180,57 @@ export const TimelineWidget: React.FC = () => {
 // --- Map Widget ---
 export const MapWidget: React.FC = () => {
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 overflow-hidden relative min-h-[200px] border border-white/5">
-            <h3 className="text-white font-bold text-lg mb-2 relative z-10">Jornada no Mapa</h3>
-            <p className="text-gray-400 text-xs mb-4 relative z-10">Nossos lugares especiais</p>
+        <div className="bg-[#1A1A1A] rounded-2xl p-0 mb-6 overflow-hidden relative min-h-[400px] border border-white/5 shadow-2xl">
+            {/* Dark Map Background Image (Simulated) */}
+            <div className="absolute inset-0 z-0">
+                <img 
+                    src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" // Fallback generic, replaced with CSS pattern below
+                    alt="Map Background"
+                    className="w-full h-full object-cover opacity-10 hidden" // Hiding generic, using CSS gradient/pattern
+                />
+                {/* CSS Dark Map Pattern */}
+                <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
+                    backgroundImage: `radial-gradient(#333 1px, transparent 1px), radial-gradient(#222 1px, transparent 1px)`,
+                    backgroundSize: '20px 20px',
+                    backgroundPosition: '0 0, 10px 10px'
+                }}>
+                    {/* Simulated Roads */}
+                    <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
+                         {/* Axis (BR-040 approx) */}
+                         <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#555" strokeWidth="12" fill="none" />
+                         <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#FBBC04" strokeWidth="2" fill="none" strokeDasharray="10 5" />
+                    </svg>
+                </div>
+                <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80 pointer-events-none"></div>
+            </div>
+
+            <div className="absolute top-4 left-4 z-10">
+                <h3 className="text-white font-bold text-lg drop-shadow-md">Mapa do Nosso Amor</h3>
+                <p className="text-blue-300 text-xs drop-shadow-md">Brasília & Valparaíso</p>
+            </div>
             
-            <div className="absolute inset-0 top-16 bg-gradient-to-br from-gray-900 to-black">
-                 {/* Abstract Map Dots */}
+            <div className="absolute inset-0 z-10">
+                 {/* Map Pins */}
                  {MAP_LOCATIONS.map((loc) => (
                      <div 
                         key={loc.id}
-                        className="absolute flex flex-col items-center group cursor-pointer"
+                        className="absolute flex flex-col items-center group cursor-pointer hover:z-50"
                         style={{ left: `${loc.coords.x}%`, top: `${loc.coords.y}%` }}
                      >
-                         <MapPin 
-                            size={24} 
-                            className={`transform transition-all duration-300 group-hover:-translate-y-2 ${loc.status === 'visited' ? 'text-blue-500 fill-blue-500' : 'text-gray-600'}`} 
-                        />
-                         <span className="text-[10px] font-bold bg-blue-900/80 px-2 py-0.5 rounded text-white mt-1 opacity-100 transition-opacity whitespace-nowrap">
-                             {loc.name}
-                         </span>
+                         <div className="relative">
+                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <MapPin 
+                                size={28} 
+                                className={`relative z-10 transform transition-all duration-300 group-hover:-translate-y-2 drop-shadow-lg ${loc.status === 'visited' ? 'text-blue-500 fill-blue-500' : 'text-purple-500 fill-purple-500'}`} 
+                            />
+                         </div>
+                         <div className="bg-black/80 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 mt-1 transform scale-75 opacity-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                             <span className="text-[10px] font-bold text-white whitespace-nowrap">
+                                 {loc.name}
+                             </span>
+                         </div>
                      </div>
                  ))}
-                 
-                 {/* Decorative connecting line */}
-                 <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-                     <path d="M 50% 50% Q 65% 35% 80% 30%" stroke="#3B82F6" strokeWidth="2" fill="none" strokeDasharray="4 4" />
-                 </svg>
             </div>
         </div>
     );

@@ -90,9 +90,13 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
 ];
 
+// Locations approx: Shalom (North/Brasilia), Santa Maria (Middle), Valparaiso (South)
 export const MAP_LOCATIONS: MapLocation[] = [
-  { id: 1, name: "Igreja", status: 'visited', coords: { x: 50, y: 50 } },
-  { id: 2, name: "Nosso Futuro", status: 'dream', coords: { x: 80, y: 30 } },
+  { id: 1, name: "Comunidade Shalom", status: 'dream', coords: { x: 45, y: 15 } }, // North
+  { id: 2, name: "Minha Casa (Santa Maria)", status: 'visited', coords: { x: 35, y: 45 } }, // Middle Left
+  { id: 3, name: "Igreja Santa Mãe de Deus", status: 'visited', coords: { x: 55, y: 50 } }, // Middle Right (1st Encontro)
+  { id: 4, name: "Nossa Sra. da Providência", status: 'visited', coords: { x: 40, y: 55 } }, // Middle (1st Beijo)
+  { id: 5, name: "Casa Dela (Valparaíso)", status: 'visited', coords: { x: 45, y: 80 } }, // South
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
@@ -103,3 +107,12 @@ export const GALLERY_IMAGES: GalleryImage[] = [
 ];
 
 export const WORD_GAME_SECRET = "ETERNIDADE";
+
+export const LOVE_PHRASES = [
+  "Mal posso esperar pelo dia em que 'você e eu' seremos 'nós' para sempre. 💙",
+  "Você é a minha notificação favorita.",
+  "Meu lugar favorito no mundo é ao seu lado.",
+  "Cada dia com você é um presente de Deus.",
+  "O nosso amor é a melhor melodia.",
+  "Contando os segundos para te ver de novo."
+];
