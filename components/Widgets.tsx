@@ -39,8 +39,8 @@ export const RelationshipTimer: React.FC = () => {
     );
 
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-4 mb-6 border border-white/5">
-            <h3 className="text-blue-400 font-bold mb-3 flex items-center gap-2">
+        <div className="bg-[#1A1A1A] rounded-2xl p-4 mb-6 border border-white/5 w-full">
+            <h3 className="text-blue-400 font-bold mb-3 flex items-center justify-center gap-2">
                 <Heart size={16} className="fill-blue-400" /> 
                 {isFuture ? "Contagem regressiva para 01/03/26" : "Juntos desde Março 2026"}
             </h3>
@@ -141,31 +141,29 @@ export const TimelineWidget: React.FC = () => {
                         {/* Scrollable Content Container */}
                         <div className="overflow-y-auto overscroll-contain no-scrollbar">
                             {selectedEvent.image && (
-                                <div className="w-full aspect-square relative">
-                                    <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
-                                    <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
-                                    <div className="absolute bottom-4 left-4 right-4">
-                                         <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block shadow-lg">
-                                            {selectedEvent.date}
-                                         </span>
-                                         <h2 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
-                                            {selectedEvent.title}
-                                         </h2>
-                                    </div>
+                                <div className="w-full relative">
+                                    {/* Changed from aspect-square/object-cover to auto height/object-contain (or default) to show full image */}
+                                    <img 
+                                        src={selectedEvent.image} 
+                                        alt={selectedEvent.title} 
+                                        className="w-full h-auto object-contain bg-black" 
+                                    />
+                                    
+                                    {/* Overlay Gradient for text readability if text overlaps, though layout below handles it too */}
+                                    <div className="absolute inset-x-0 bottom-0 h-32 bg-gradient-to-t from-[#121212] to-transparent pointer-events-none" />
                                 </div>
                             )}
                             
-                            <div className="p-6">
-                                {!selectedEvent.image && (
-                                    <div className="mb-4">
-                                         <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
-                                            {selectedEvent.date}
-                                         </span>
-                                         <h2 className="text-3xl font-bold text-white leading-tight">
-                                            {selectedEvent.title}
-                                         </h2>
-                                    </div>
-                                )}
+                            <div className="p-6 relative z-10">
+                                <div className="mb-4">
+                                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block shadow-lg">
+                                        {selectedEvent.date}
+                                     </span>
+                                     <h2 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
+                                        {selectedEvent.title}
+                                     </h2>
+                                </div>
+
                                 <div className="flex items-center gap-2 mb-4 text-blue-400">
                                     <div className="h-px bg-blue-500/30 flex-1" />
                                     {selectedEvent.icon === 'heart' && <Heart size={20} className="fill-current" />}

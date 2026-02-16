@@ -113,18 +113,21 @@ const App: React.FC = () => {
             <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 blur-2xl opacity-20 rounded-full"></div>
                 <div className="relative bg-[#1A1A1A]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/5">
+                    {/* Main Image */}
                     <div 
                         className="w-full aspect-square bg-cover bg-top cursor-pointer group" 
                         style={{ backgroundImage: `url(${heroImage})` }}
                         onClick={() => setShowFullHero(true)}
                     >
-                        <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end items-center text-center transition-opacity group-hover:opacity-90">
-                             <h2 className="text-3xl font-bold drop-shadow-lg text-white tracking-wide mb-2">{COUPLE_NAMES}</h2>
-                             <img src={logoImage} alt="Logo" className="w-20 h-20 object-contain drop-shadow-md" />
-                        </div>
+                        {/* Removed text/logo from here */}
                     </div>
-                    <div className="p-4">
-                        <RelationshipTimer />
+                    
+                    {/* Content Section */}
+                    <div className="p-6 flex flex-col items-center text-center">
+                         <img src={logoImage} alt="Logo" className="w-16 h-16 object-contain drop-shadow-md mb-2" />
+                         <h2 className="text-3xl font-bold drop-shadow-lg text-white tracking-wide mb-4">{COUPLE_NAMES}</h2>
+                         
+                         <RelationshipTimer />
                     </div>
                 </div>
             </div>
