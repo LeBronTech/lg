@@ -7,10 +7,11 @@ import StoryOverlay from './components/StoryOverlay';
 
 const FloatingHearts = () => {
     // Generate an array of random positions for hearts
-    const hearts = Array.from({ length: 15 }).map((_, i) => ({
+    // Increased count for "rising all the time" feel
+    const hearts = Array.from({ length: 20 }).map((_, i) => ({
         id: i,
         left: `${Math.random() * 100}%`,
-        animationDelay: `${Math.random() * 15}s`,
+        animationDelay: `${Math.random() * 10}s`, // Varied delays
         scale: 0.5 + Math.random() * 0.5,
         opacity: 0.3 + Math.random() * 0.4
     }));
@@ -20,7 +21,7 @@ const FloatingHearts = () => {
             {hearts.map((h) => (
                 <div 
                     key={h.id}
-                    className="absolute bottom-0 text-2xl animate-float-up"
+                    className="absolute -bottom-10 text-2xl animate-float-up"
                     style={{ 
                         left: h.left, 
                         animationDelay: h.animationDelay,
@@ -43,16 +44,16 @@ const App: React.FC = () => {
 
   return (
     <div className="min-h-screen bg-black text-white flex justify-center">
-      {/* Mobile Container Limit */}
-      <div className="w-full max-w-md bg-black min-h-screen relative shadow-2xl overflow-hidden">
+      {/* Mobile Container Limit with Gradient Background */}
+      <div className="w-full max-w-md bg-gradient-to-b from-blue-950 via-[#050510] to-black min-h-screen relative shadow-2xl overflow-hidden">
         
         {/* Floating Hearts Background */}
         <FloatingHearts />
 
         {/* Status Bar Fake */}
-        <div className="w-full h-12 flex justify-between items-center px-6 text-xs font-bold text-gray-400 z-20 relative">
+        <div className="w-full h-12 flex justify-between items-center px-6 text-xs font-bold text-blue-200/50 z-20 relative">
              <span>9:41</span>
-             <span className="text-blue-500">Futuro juntos 💙</span>
+             <span className="text-blue-400">Futuro juntos 💙</span>
              <MoreHorizontal size={16} />
         </div>
 
@@ -65,15 +66,15 @@ const App: React.FC = () => {
             {/* About the Couple / Timer */}
             <div className="relative mb-6">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-600 blur-2xl opacity-20 rounded-full"></div>
-                <div className="relative bg-[#1A1A1A] rounded-2xl overflow-hidden border border-white/5">
+                <div className="relative bg-[#1A1A1A]/80 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/5">
                     <div 
                         className="w-full aspect-square bg-cover bg-center cursor-pointer group" 
                         style={{ backgroundImage: `url(${heroImage})` }}
                         onClick={() => setShowFullHero(true)}
                     >
                         <div className="w-full h-full bg-gradient-to-t from-black/80 via-black/20 to-transparent p-6 flex flex-col justify-end items-center text-center transition-opacity group-hover:opacity-90">
-                             <img src={logoImage} alt="Logo" className="w-20 h-20 mb-3 object-contain drop-shadow-md" />
-                             <h2 className="text-3xl font-bold drop-shadow-lg text-white tracking-wide">{COUPLE_NAMES}</h2>
+                             <h2 className="text-3xl font-bold drop-shadow-lg text-white tracking-wide mb-2">{COUPLE_NAMES}</h2>
+                             <img src={logoImage} alt="Logo" className="w-20 h-20 object-contain drop-shadow-md" />
                         </div>
                     </div>
                     <div className="p-4">
@@ -103,7 +104,7 @@ const App: React.FC = () => {
         </div>
 
         {/* Floating Action Button / Bottom "Retrospectiva" Banner */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black to-transparent z-40">
+        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent z-40">
              <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 shadow-lg shadow-blue-900/30 flex items-center justify-between cursor-pointer hover:scale-[1.02] transition-transform"
                   onClick={() => setIsStoryOpen(true)}
              >

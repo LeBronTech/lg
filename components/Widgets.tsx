@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES } from '../constants';
-import { Heart, MapPin, Star, Camera, Phone, Users, Unlock } from 'lucide-react';
+import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar } from 'lucide-react';
 import { TimelineEvent } from '../types';
 
 // --- Relationship Timer Component ---
@@ -54,54 +54,126 @@ export const RelationshipTimer: React.FC = () => {
     );
 };
 
-// --- Timeline Component ---
+// --- Timeline Component (Enhanced) ---
 export const TimelineWidget: React.FC = () => {
+    const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
+
     return (
-        <div className="rounded-2xl mb-6">
-            <h3 className="text-white font-bold text-lg mb-6 pl-2">Nossa História</h3>
-            <div className="relative space-y-8">
-                {/* Central Line */}
-                <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-gradient-to-b from-blue-500 to-purple-900 rounded-full" />
+        <>
+            <div className="rounded-2xl mb-8 relative">
+                <div className="flex items-center justify-between mb-6 px-2">
+                    <h3 className="text-white font-bold text-xl">Nossa História</h3>
+                    <span className="text-[10px] text-blue-300 bg-blue-500/10 px-2 py-1 rounded-full border border-blue-500/20">
+                        Clique para ver detalhes
+                    </span>
+                </div>
                 
-                {TIMELINE_EVENTS.map((event: TimelineEvent, index) => {
-                    const isEven = index % 2 === 0;
-                    return (
-                        <div key={event.id} className={`relative flex items-center ${isEven ? 'flex-row' : 'flex-row-reverse'}`}>
-                            
-                            {/* Content Side */}
-                            <div className={`w-1/2 ${isEven ? 'pr-6 text-right' : 'pl-6 text-left'}`}>
-                                <div className="bg-[#1A1A1A] p-3 rounded-xl border border-white/10 shadow-lg">
-                                    <span className="text-xs text-blue-400 font-bold mb-1 block">
-                                        {event.date}
-                                    </span>
-                                    <h4 className="text-white font-bold text-sm mb-1">{event.title}</h4>
-                                    
-                                    {event.image && (
-                                        <div className="w-full aspect-video rounded-lg overflow-hidden mb-2 mt-2">
-                                            <img src={event.image} alt={event.title} className="w-full h-full object-cover" />
-                                        </div>
-                                    )}
-                                    <p className="text-xs text-gray-400 leading-relaxed">{event.description}</p>
+                <div className="relative space-y-8 px-2">
+                    {/* Glowing Central Line */}
+                    <div className="absolute left-[19px] top-2 bottom-2 w-0.5 bg-gradient-to-b from-blue-500 via-purple-500 to-transparent rounded-full opacity-50 shadow-[0_0_10px_rgba(59,130,246,0.5)]" />
+                    
+                    {TIMELINE_EVENTS.map((event: TimelineEvent, index) => (
+                        <div 
+                            key={event.id} 
+                            className="relative flex items-start gap-4 group cursor-pointer"
+                            onClick={() => setSelectedEvent(event)}
+                        >
+                            {/* Icon Node */}
+                            <div className="relative z-10 flex-shrink-0 mt-8">
+                                <div className="w-10 h-10 bg-black border-2 border-blue-500 rounded-full flex items-center justify-center shadow-[0_0_15px_rgba(59,130,246,0.4)] group-hover:scale-110 transition-transform duration-300 bg-gradient-to-br from-gray-900 to-black">
+                                    {event.icon === 'heart' && <Heart size={16} className="text-pink-500 fill-pink-500" />}
+                                    {event.icon === 'star' && <Star size={16} className="text-yellow-500 fill-yellow-500" />}
+                                    {event.icon === 'map' && <MapPin size={16} className="text-blue-500" />}
+                                    {event.icon === 'camera' && <Camera size={16} className="text-green-500" />}
+                                    {event.icon === 'phone' && <Phone size={16} className="text-purple-500" />}
+                                    {event.icon === 'users' && <Users size={16} className="text-orange-500" />}
                                 </div>
                             </div>
 
-                            {/* Center Icon */}
-                            <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-black border-2 border-blue-500 rounded-full flex items-center justify-center z-10 shadow-[0_0_10px_rgba(59,130,246,0.5)]">
-                                {event.icon === 'heart' && <Heart size={14} className="text-pink-500 fill-pink-500" />}
-                                {event.icon === 'star' && <Star size={14} className="text-yellow-500 fill-yellow-500" />}
-                                {event.icon === 'map' && <MapPin size={14} className="text-blue-500" />}
-                                {event.icon === 'camera' && <Camera size={14} className="text-green-500" />}
-                                {event.icon === 'phone' && <Phone size={14} className="text-purple-500" />}
-                                {event.icon === 'users' && <Users size={14} className="text-orange-500" />}
+                            {/* Card Content */}
+                            <div className="flex-1 bg-gradient-to-br from-white/10 to-white/5 border border-white/10 p-4 rounded-2xl shadow-lg backdrop-blur-sm group-hover:bg-white/15 group-hover:border-blue-500/30 transition-all duration-300 active:scale-95">
+                                <div className="flex justify-between items-start mb-2">
+                                    <span className="text-xs font-bold text-blue-300 bg-blue-900/30 px-2 py-0.5 rounded flex items-center gap-1">
+                                        <Calendar size={10} />
+                                        {event.date}
+                                    </span>
+                                    <Maximize2 size={12} className="text-gray-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                                
+                                <h4 className="text-white font-bold text-lg leading-tight mb-2">{event.title}</h4>
+                                
+                                {event.image && (
+                                    <div className="w-full aspect-[21/9] rounded-lg overflow-hidden mb-3 relative">
+                                        <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
+                                        <img src={event.image} alt={event.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                                    </div>
+                                )}
+                                
+                                <p className="text-sm text-gray-300 line-clamp-2 leading-relaxed">
+                                    {event.description}
+                                </p>
                             </div>
-
-                            {/* Empty Side for spacing */}
-                            <div className="w-1/2"></div>
                         </div>
-                    );
-                })}
+                    ))}
+                </div>
             </div>
-        </div>
+
+            {/* Expanded Modal */}
+            {selectedEvent && (
+                <div 
+                    className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 animate-in fade-in duration-200"
+                    onClick={() => setSelectedEvent(null)}
+                >
+                    <button className="absolute top-6 right-6 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-20">
+                        <X size={24} />
+                    </button>
+
+                    <div 
+                        className="w-full max-w-md bg-[#121212] rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[80vh]"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {selectedEvent.image && (
+                            <div className="w-full aspect-square relative">
+                                <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
+                                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
+                                <div className="absolute bottom-4 left-4 right-4">
+                                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block shadow-lg">
+                                        {selectedEvent.date}
+                                     </span>
+                                     <h2 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
+                                        {selectedEvent.title}
+                                     </h2>
+                                </div>
+                            </div>
+                        )}
+                        
+                        <div className="p-6 overflow-y-auto">
+                            {!selectedEvent.image && (
+                                <div className="mb-4">
+                                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
+                                        {selectedEvent.date}
+                                     </span>
+                                     <h2 className="text-3xl font-bold text-white leading-tight">
+                                        {selectedEvent.title}
+                                     </h2>
+                                </div>
+                            )}
+                            <div className="flex items-center gap-2 mb-4 text-blue-400">
+                                <div className="h-px bg-blue-500/30 flex-1" />
+                                {selectedEvent.icon === 'heart' && <Heart size={20} className="fill-current" />}
+                                {selectedEvent.icon === 'star' && <Star size={20} className="fill-current" />}
+                                {selectedEvent.icon === 'phone' && <Phone size={20} className="fill-current" />}
+                                {selectedEvent.icon === 'users' && <Users size={20} className="fill-current" />}
+                                <div className="h-px bg-blue-500/30 flex-1" />
+                            </div>
+                            <p className="text-gray-200 text-lg leading-relaxed font-light">
+                                {selectedEvent.description}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
