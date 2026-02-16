@@ -121,54 +121,63 @@ export const TimelineWidget: React.FC = () => {
             {/* Expanded Modal */}
             {selectedEvent && (
                 <div 
-                    className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-6 animate-in fade-in duration-200"
-                    onClick={() => setSelectedEvent(null)}
+                    className="fixed inset-0 z-[70] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-200"
                 >
-                    <button className="absolute top-6 right-6 w-10 h-10 bg-white/10 rounded-full flex items-center justify-center text-white hover:bg-white/20 transition-colors z-20">
-                        <X size={24} />
-                    </button>
+                    {/* Backdrop click to close */}
+                    <div className="absolute inset-0" onClick={() => setSelectedEvent(null)} />
 
                     <div 
-                        className="w-full max-w-md bg-[#121212] rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[80vh]"
+                        className="relative w-full max-w-md bg-[#121212] rounded-3xl overflow-hidden shadow-2xl border border-white/10 flex flex-col max-h-[85vh] animate-in zoom-in-95 duration-300"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        {selectedEvent.image && (
-                            <div className="w-full aspect-square relative">
-                                <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
-                                <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
-                                <div className="absolute bottom-4 left-4 right-4">
-                                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block shadow-lg">
-                                        {selectedEvent.date}
-                                     </span>
-                                     <h2 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
-                                        {selectedEvent.title}
-                                     </h2>
-                                </div>
-                            </div>
-                        )}
-                        
-                        <div className="p-6 overflow-y-auto">
-                            {!selectedEvent.image && (
-                                <div className="mb-4">
-                                     <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
-                                        {selectedEvent.date}
-                                     </span>
-                                     <h2 className="text-3xl font-bold text-white leading-tight">
-                                        {selectedEvent.title}
-                                     </h2>
+                         {/* Floating Close Button */}
+                        <button 
+                            onClick={() => setSelectedEvent(null)}
+                            className="absolute top-4 right-4 z-50 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-md border border-white/10 shadow-lg transition-all active:scale-90 flex items-center justify-center"
+                        >
+                            <X size={20} />
+                        </button>
+
+                        {/* Scrollable Content Container */}
+                        <div className="overflow-y-auto overscroll-contain no-scrollbar">
+                            {selectedEvent.image && (
+                                <div className="w-full aspect-square relative">
+                                    <img src={selectedEvent.image} alt={selectedEvent.title} className="w-full h-full object-cover" />
+                                    <div className="absolute inset-0 bg-gradient-to-t from-[#121212] via-transparent to-transparent" />
+                                    <div className="absolute bottom-4 left-4 right-4">
+                                         <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block shadow-lg">
+                                            {selectedEvent.date}
+                                         </span>
+                                         <h2 className="text-3xl font-bold text-white leading-tight drop-shadow-md">
+                                            {selectedEvent.title}
+                                         </h2>
+                                    </div>
                                 </div>
                             )}
-                            <div className="flex items-center gap-2 mb-4 text-blue-400">
-                                <div className="h-px bg-blue-500/30 flex-1" />
-                                {selectedEvent.icon === 'heart' && <Heart size={20} className="fill-current" />}
-                                {selectedEvent.icon === 'star' && <Star size={20} className="fill-current" />}
-                                {selectedEvent.icon === 'phone' && <Phone size={20} className="fill-current" />}
-                                {selectedEvent.icon === 'users' && <Users size={20} className="fill-current" />}
-                                <div className="h-px bg-blue-500/30 flex-1" />
+                            
+                            <div className="p-6">
+                                {!selectedEvent.image && (
+                                    <div className="mb-4">
+                                         <span className="bg-blue-600 text-white text-xs font-bold px-2 py-1 rounded mb-2 inline-block">
+                                            {selectedEvent.date}
+                                         </span>
+                                         <h2 className="text-3xl font-bold text-white leading-tight">
+                                            {selectedEvent.title}
+                                         </h2>
+                                    </div>
+                                )}
+                                <div className="flex items-center gap-2 mb-4 text-blue-400">
+                                    <div className="h-px bg-blue-500/30 flex-1" />
+                                    {selectedEvent.icon === 'heart' && <Heart size={20} className="fill-current" />}
+                                    {selectedEvent.icon === 'star' && <Star size={20} className="fill-current" />}
+                                    {selectedEvent.icon === 'phone' && <Phone size={20} className="fill-current" />}
+                                    {selectedEvent.icon === 'users' && <Users size={20} className="fill-current" />}
+                                    <div className="h-px bg-blue-500/30 flex-1" />
+                                </div>
+                                <p className="text-gray-200 text-lg leading-relaxed font-light">
+                                    {selectedEvent.description}
+                                </p>
                             </div>
-                            <p className="text-gray-200 text-lg leading-relaxed font-light">
-                                {selectedEvent.description}
-                            </p>
                         </div>
                     </div>
                 </div>
