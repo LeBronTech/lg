@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ChevronLeft, ChevronRight, ExternalLink } from 'lucide-react';
 import { StorySlide } from '../types';
 import { STORY_SLIDES } from '../constants';
 
@@ -122,6 +122,21 @@ const StoryOverlay: React.FC<StoryOverlayProps> = ({ isOpen, onClose }) => {
                 <p className="text-xl text-white/90 font-medium animate-slide-up" style={{ animationDelay: '0.2s' }}>
                     {currentSlide.subContent}
                 </p>
+            )}
+
+            {/* CTA Button */}
+            {currentSlide.link && (
+                <a 
+                    href={currentSlide.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-8 bg-white text-blue-600 font-bold py-3 px-8 rounded-full shadow-lg hover:scale-105 transition-transform animate-slide-up pointer-events-auto relative z-50 flex items-center gap-2"
+                    style={{ animationDelay: '0.4s' }}
+                    onClick={(e) => e.stopPropagation()} // Prevent navigation when clicking button
+                >
+                    <ExternalLink size={20} />
+                    {currentSlide.linkText || "Ver Link"}
+                </a>
             )}
         </div>
 

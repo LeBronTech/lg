@@ -52,6 +52,16 @@ export const STORY_SLIDES: StorySlide[] = [
     subContent: "Para sermos um só.",
     duration: 5,
     bgColor: "bg-gradient-to-br from-indigo-900 to-black"
+  },
+  {
+    id: 5,
+    type: 'text',
+    content: "Para todas as notas a ti um dia dedicada",
+    subContent: "Ouça com carinho 💙",
+    duration: 10,
+    bgColor: "bg-gradient-to-br from-blue-800 to-black",
+    link: "https://youtu.be/vCPCfvXjXIs",
+    linkText: "Ver Clipe"
   }
 ];
 

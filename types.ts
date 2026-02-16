@@ -6,6 +6,8 @@ export interface StorySlide {
   image?: string;
   duration: number; // in seconds
   bgColor: string;
+  link?: string;
+  linkText?: string;
 }
 
 export interface TimelineEvent {
