@@ -51,7 +51,7 @@ export const STORY_SLIDES: StorySlide[] = [
     id: 4,
     type: 'text',
     content: "Contando os dias...",
-    subContent: "Para sermos um só.",
+    subContent: "Para o nosso Sim.",
     duration: 5,
     bgColor: "bg-gradient-to-br from-indigo-900 to-black"
   },
@@ -71,8 +71,8 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   { 
     id: 1, 
     date: "31 Jan 2026", 
-    title: "Primeira Ligação", 
-    description: "Quando ouvimos a voz um do outro pela primeira vez.", 
+    title: "A Escolha", 
+    description: "Já conversávamos e nos conhecíamos, mas foi aqui que você disse que tinha me escolhido. Meu coração disparou.", 
     icon: 'phone',
     image: IMAGES.videoCall 
   },
@@ -80,31 +80,31 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     id: 2, 
     date: "01 Fev 2026", 
     title: "Primeira Missa", 
-    description: "O momento em que os olhares se cruzaram pessoalmente na igreja.", 
+    description: "Não foi só uma missa, foi a primeira vez que peguei na sua mão. Senti ali que não queria soltar nunca mais.", 
     icon: 'users',
     image: IMAGES.meeting
   },
   { 
     id: 5, 
     date: "02 Fev 2026", 
-    title: "Primeiro Encontro", 
-    description: "Nosso passeio especial, onde nos conhecemos ainda mais.", 
-    icon: 'camera',
+    title: "A Confissão", 
+    description: "No nosso encontro, quando eu disse que gostava muito de você... eu estava gostando de verdade. Era real.", 
+    icon: 'heart',
     image: IMAGES.firstDate
   },
   { 
     id: 3, 
     date: "03 Fev 2026", 
     title: "Primeiro Beijo", 
-    description: "Um momento mágico e inesquecível.", 
-    icon: 'heart',
+    description: "À noite, debaixo de chuva... Foi literalmente uma cena de filme. Perfeito e inesquecível.", 
+    icon: 'camera',
     image: IMAGES.kiss
   },
   { 
     id: 4, 
     date: "01 Mar 2026", 
-    title: "O Início", 
-    description: "O começo oficial da nossa história de amor.", 
+    title: "O Grande Dia", 
+    description: "O dia em que a contagem regressiva termina e a nossa eternidade começa. Aceita caminhar comigo?", 
     icon: 'star',
     image: IMAGES.hero
   },
@@ -119,20 +119,26 @@ export const MAP_LOCATIONS: MapLocation[] = [
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
-  { id: 1, url: IMAGES.videoCall, caption: "A primeira chamada" },
-  { id: 2, url: IMAGES.meeting, caption: "Primeira Missa" },
-  { id: 5, url: IMAGES.firstDate, caption: "Primeiro Encontro" },
-  { id: 3, url: IMAGES.kiss, caption: "O beijo" },
+  { id: 1, url: IMAGES.videoCall, caption: "A escolha" },
+  { id: 2, url: IMAGES.meeting, caption: "Mãos dadas" },
+  { id: 5, url: IMAGES.firstDate, caption: "Gostando de verdade" },
+  { id: 3, url: IMAGES.kiss, caption: "Beijo na chuva" },
   { id: 4, url: IMAGES.hero, caption: "Nós dois" },
 ];
 
 export const WORD_GAME_SECRET = "VIDA";
 
 export const LOVE_PHRASES = [
-  "Mal posso esperar pelo dia em que 'você e eu' seremos 'nós' para sempre. 💙",
-  "Você é a minha notificação favorita.",
-  "Meu lugar favorito no mundo é ao seu lado.",
-  "Cada dia com você é um presente de Deus.",
-  "O nosso amor é a melhor melodia.",
-  "Contando os segundos para te ver de novo."
+  "A nossa vida começou quando nos encontramos… e que loucura boa viver isso juntos 💙",
+  "Sonhei acordado com vc o dia todo.",
+  "Essa coisinha tá muito linda, eu vou beijar ela 😂",
+  "Tu ta lascando com meu sono.",
+  "Não sei o que foi que tu fez não. Quando eu vi já tava te beijando.",
+  "Continuarei sendo a mulher mais feliz e sortuda desse mundo.",
+  "Por mais uma vida cheios de dias lindos ao seu lado.",
+  "Eu tento dar o meu melhor meu bem, vc merece 💙",
+  "Eu quero é ser santo eu!",
+  "Fiquei feliz de ouvir sua voz 💙",
+  "O amor é azulzinho 💙",
+  "Se vc não existisse eu te inventava 💙"
 ];

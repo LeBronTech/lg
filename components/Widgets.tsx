@@ -14,6 +14,8 @@ export const RelationshipTimer: React.FC = () => {
             const start = new Date(START_DATE);
             const diff = start.getTime() - now.getTime();
             
+            // If diff is positive, date is in future (Countdown)
+            // If diff is negative, date is past (Relationship time)
             setIsFuture(diff > 0);
             
             const absDiff = Math.abs(diff);
@@ -40,9 +42,9 @@ export const RelationshipTimer: React.FC = () => {
 
     return (
         <div className="bg-[#1A1A1A] rounded-2xl p-4 mb-6 border border-white/5 w-full">
-            <h3 className="text-blue-400 font-bold mb-3 flex items-center justify-center gap-2">
-                <Heart size={16} className="fill-blue-400" /> 
-                {isFuture ? "Contagem regressiva para 01/03/26" : "Juntos desde Março 2026"}
+            <h3 className="text-blue-400 font-bold mb-3 flex items-center justify-center gap-2 text-center leading-tight">
+                <Heart size={16} className="fill-blue-400 flex-shrink-0" /> 
+                {isFuture ? "Contagem regressiva para o nosso Sim" : "Namorando há..."}
             </h3>
             <div className="flex justify-center gap-3">
                 <TimeUnit val={time.days} label="Dias" />
@@ -50,6 +52,11 @@ export const RelationshipTimer: React.FC = () => {
                 <TimeUnit val={time.minutes} label="Min" />
                 <TimeUnit val={time.seconds} label="Seg" />
             </div>
+            {!isFuture && (
+                <p className="text-center text-xs text-gray-500 mt-3 animate-pulse">
+                    E contando... para sempre 💙
+                </p>
+            )}
         </div>
     );
 };
