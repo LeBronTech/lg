@@ -87,17 +87,17 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   { 
     id: 5, 
     date: "02 Fev 2026", 
-    title: "A Confissão", 
-    description: "No nosso encontro, quando eu disse que gostava muito de você... eu estava gostando de verdade. Era real.", 
-    icon: 'heart',
+    title: "Nosso Café", 
+    description: "Na padaria, fiz uma flor de guardanapo para você. Ali, entre conversas e café, nos conhecemos melhor.", 
+    icon: 'camera',
     image: IMAGES.firstDate
   },
   { 
     id: 3, 
     date: "03 Fev 2026", 
-    title: "Primeiro Beijo", 
-    description: "À noite, debaixo de chuva... Foi literalmente uma cena de filme. Perfeito e inesquecível.", 
-    icon: 'camera',
+    title: "Beijo e Verdade", 
+    description: "Debaixo de chuva, cena de filme. Olhei nos seus olhos, confessei que gostava de você de verdade... e nos beijamos.", 
+    icon: 'heart',
     image: IMAGES.kiss
   },
   { 
@@ -121,8 +121,8 @@ export const MAP_LOCATIONS: MapLocation[] = [
 export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 1, url: IMAGES.videoCall, caption: "A escolha" },
   { id: 2, url: IMAGES.meeting, caption: "Mãos dadas" },
-  { id: 5, url: IMAGES.firstDate, caption: "Gostando de verdade" },
-  { id: 3, url: IMAGES.kiss, caption: "Beijo na chuva" },
+  { id: 5, url: IMAGES.firstDate, caption: "Flor de guardanapo" },
+  { id: 3, url: IMAGES.kiss, caption: "Beijo e confissão" },
   { id: 4, url: IMAGES.hero, caption: "Nós dois" },
 ];
 
