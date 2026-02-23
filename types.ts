@@ -1,15 +1,3 @@
-export interface StorySlide {
-  id: number;
-  type: 'intro' | 'stats' | 'photo' | 'music' | 'text';
-  content: string;
-  subContent?: string;
-  image?: string;
-  duration: number; // in seconds
-  bgColor: string;
-  link?: string;
-  linkText?: string;
-}
-
 export interface TimelineEvent {
   id: number;
   date: string;

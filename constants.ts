@@ -1,4 +1,4 @@
-import { StorySlide, TimelineEvent, MapLocation, GalleryImage } from './types';
+import { TimelineEvent, MapLocation, GalleryImage } from './types';
 
 export const COUPLE_NAMES = "Léo & Gê";
 // March 1, 2026, 13:00
@@ -21,51 +21,6 @@ const IMAGES = {
   firstDate: "https://iili.io/q2xtQna.png",
   kiss: "https://iili.io/qJbsjJ1.jpg",
 };
-
-export const STORY_SLIDES: StorySlide[] = [
-  {
-    id: 1,
-    type: 'intro',
-    content: "Nossa Jornada Começa",
-    subContent: "Prepare-se para o nosso futuro juntos.",
-    duration: 4,
-    bgColor: "bg-gradient-to-br from-blue-900 to-black"
-  },
-  {
-    id: 2,
-    type: 'photo',
-    content: "Onde tudo começa",
-    image: IMAGES.hero,
-    duration: 5,
-    bgColor: "bg-black"
-  },
-  {
-    id: 3,
-    type: 'music',
-    content: "Nossa Canção",
-    subContent: "Tantos Mares - Pedro Valença",
-    duration: 5,
-    bgColor: "bg-gradient-to-br from-slate-900 to-black"
-  },
-  {
-    id: 4,
-    type: 'text',
-    content: "Contando os dias...",
-    subContent: "Para o nosso Sim.",
-    duration: 5,
-    bgColor: "bg-gradient-to-br from-indigo-900 to-black"
-  },
-  {
-    id: 5,
-    type: 'text',
-    content: "Para todas as notas a ti um dia dedicada",
-    subContent: "Ouça com carinho 💙",
-    duration: 10,
-    bgColor: "bg-gradient-to-br from-blue-800 to-black",
-    link: "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q",
-    linkText: "Ouvir Playlist"
-  }
-];
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
   { 

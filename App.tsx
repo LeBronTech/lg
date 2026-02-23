@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { PlayCircle, Share2, MoreHorizontal, X } from 'lucide-react';
+import { PlayCircle, Share2, MoreHorizontal, X, Music, ExternalLink } from 'lucide-react';
 import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
 import MusicBar from './components/MusicBar';
 import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget, ContractWidget } from './components/Widgets';
-import StoryOverlay from './components/StoryOverlay';
 
 const FloatingHearts = () => {
     // Generate an array of random positions for hearts
@@ -42,7 +41,7 @@ const CarouselCard = () => {
     useEffect(() => {
         const interval = setInterval(() => {
             setIndex((prev) => (prev + 1) % LOVE_PHRASES.length);
-        }, 3000); // 3 seconds for better readability
+        }, 5000); // 5 seconds for better readability
         return () => clearInterval(interval);
     }, []);
 
@@ -83,10 +82,10 @@ const CarouselCard = () => {
 };
 
 const App: React.FC = () => {
-  const [isStoryOpen, setIsStoryOpen] = useState(false);
   const [showFullHero, setShowFullHero] = useState(false);
   const heroImage = "https://iili.io/qJbwiNt.jpg";
   const logoImage = "https://iili.io/qJbDx6v.png";
+  const playlistLink = "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q";
 
   return (
     <div className="min-h-screen bg-black text-white flex justify-center">
@@ -125,7 +124,7 @@ const App: React.FC = () => {
                     {/* Content Section */}
                     <div className="p-6 flex flex-col items-center text-center">
                          <img src={logoImage} alt="Logo" className="w-16 h-16 object-contain drop-shadow-md mb-2" />
-                         <h2 className="text-3xl font-bold drop-shadow-lg text-white tracking-wide mb-4">{COUPLE_NAMES}</h2>
+                         <h2 className="text-5xl font-handwriting font-bold drop-shadow-lg text-white tracking-wide mb-4">{COUPLE_NAMES}</h2>
                          
                          <RelationshipTimer />
                     </div>
@@ -142,30 +141,33 @@ const App: React.FC = () => {
             <GalleryWidget />
             <ContractWidget />
 
-        </div>
-
-        {/* Floating Action Button / Bottom "Retrospectiva" Banner */}
-        <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-black via-black/80 to-transparent z-40">
-             <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-4 shadow-lg shadow-blue-900/30 flex items-center justify-between cursor-pointer hover:scale-[1.02] transition-transform"
-                  onClick={() => setIsStoryOpen(true)}
-             >
-                 <div className="flex items-center gap-3">
-                     <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center animate-pulse">
-                        <PlayCircle className="text-white fill-white/20" />
+            {/* Dedicated Music Button */}
+             <div className="mb-6 text-center px-4">
+                <p className="text-sm text-blue-200 italic font-medium mb-3">
+                    "Por todas as músicas um dia a ti dedicada em uma nota 💙"
+                </p>
+                 <a 
+                    href={playlistLink}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-2xl p-4 shadow-lg shadow-blue-900/30 flex items-center justify-between cursor-pointer hover:scale-[1.02] transition-transform group"
+                 >
+                     <div className="flex items-center gap-3">
+                         <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center group-hover:animate-spin-slow">
+                            <Music className="text-white fill-white/20" />
+                         </div>
+                         <div>
+                             <h3 className="font-bold text-white leading-none">Música Dedicada</h3>
+                             <p className="text-xs text-blue-100">Nossa playlist especial 🎵</p>
+                         </div>
                      </div>
-                     <div>
-                         <h3 className="font-bold text-white leading-none">Nossa História</h3>
-                         <p className="text-xs text-blue-200">Reviva os momentos</p>
+                     <div className="bg-white/20 p-2 rounded-full">
+                         <ExternalLink size={16} className="text-white" />
                      </div>
-                 </div>
-                 <button className="bg-white text-blue-600 text-xs font-bold px-4 py-2 rounded-full">
-                     Ver agora
-                 </button>
+                 </a>
              </div>
-        </div>
 
-        {/* Fullscreen Story Mode */}
-        <StoryOverlay isOpen={isStoryOpen} onClose={() => setIsStoryOpen(false)} />
+        </div>
 
         {/* Fullscreen Hero Image Modal */}
         {showFullHero && (
