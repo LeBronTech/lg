@@ -10,6 +10,7 @@ export interface TimelineEvent {
 export interface MapLocation {
   id: number;
   name: string;
+  description?: string;
   status: 'visited' | 'dream';
   coords: { x: number; y: number }; // Percentage for abstract map
 }

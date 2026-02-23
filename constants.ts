@@ -67,13 +67,13 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
 
 // Locations approx:
 export const MAP_LOCATIONS: MapLocation[] = [
-  { id: 2, name: "Comunidade Shalom", status: 'visited', coords: { x: 35, y: 45 } }, // Was Minha Casa
-  { id: 3, name: "Igreja Santa Mãe de Deus", status: 'visited', coords: { x: 55, y: 50 } }, 
-  { id: 4, name: "Nossa Sra. da Providência", status: 'visited', coords: { x: 40, y: 55 } }, 
-  { id: 5, name: "Retiro JSC", status: 'visited', coords: { x: 45, y: 80 } }, // Was Casa Dela
-  { id: 6, name: "Paróquia São José", status: 'visited', coords: { x: 50, y: 35 } }, // Candangolândia
-  { id: 7, name: "Zoológico de Brasília", status: 'visited', coords: { x: 60, y: 30 } },
-  { id: 8, name: "Paróquia N.S. de Fátima", status: 'visited', coords: { x: 20, y: 50 } }, // Taguatinga Sul
+  { id: 2, name: "Comunidade Shalom", description: "Apresentei minha família santa", status: 'visited', coords: { x: 35, y: 45 } }, 
+  { id: 3, name: "Igreja Santa Mãe de Deus", description: "Onde tudo começou", status: 'visited', coords: { x: 55, y: 50 } }, 
+  { id: 4, name: "Nossa Sra. da Providência", description: "O padre esperando a gente pra começar a missa", status: 'visited', coords: { x: 40, y: 55 } }, 
+  { id: 5, name: "Retiro JSC", description: "Onde nos vimos pela primeira vez", status: 'visited', coords: { x: 45, y: 80 } }, 
+  { id: 6, name: "Paróquia São José", description: "O início de uma eternidade", status: 'visited', coords: { x: 50, y: 35 } }, 
+  { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
+  { id: 8, name: "Paróquia N.S. de Fátima", description: "Nossa primeira missão juntos", status: 'visited', coords: { x: 20, y: 50 } }, 
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
