@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES } from '../constants';
-import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2 } from 'lucide-react';
-import { TimelineEvent } from '../types';
+import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2, ZoomIn, ZoomOut } from 'lucide-react';
+import { TimelineEvent, MapLocation, GalleryImage } from '../types';
+import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
+import { useBackHandler } from '../hooks/useBackHandler';
 
 // --- Relationship Timer Component ---
 export const RelationshipTimer: React.FC = () => {
@@ -64,6 +66,7 @@ export const RelationshipTimer: React.FC = () => {
 // --- Timeline Component (Enhanced) ---
 export const TimelineWidget: React.FC = () => {
     const [selectedEvent, setSelectedEvent] = useState<TimelineEvent | null>(null);
+    useBackHandler(!!selectedEvent, () => setSelectedEvent(null));
 
     return (
         <>
@@ -193,83 +196,102 @@ export const TimelineWidget: React.FC = () => {
 
 // --- Map Widget ---
 export const MapWidget: React.FC = () => {
-    const [scale, setScale] = useState(1);
     const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(null);
-
-    const handleZoomIn = () => setScale(prev => Math.min(prev + 0.5, 3));
-    const handleZoomOut = () => setScale(prev => Math.max(prev - 0.5, 1));
+    useBackHandler(!!selectedLocation, () => setSelectedLocation(null));
 
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-0 mb-6 overflow-hidden relative min-h-[400px] border border-white/5 shadow-2xl group">
-            {/* Dark Map Background Image (Simulated) */}
-            <div className="absolute inset-0 z-0 overflow-hidden">
-                <div 
-                    className="w-full h-full transition-transform duration-300 ease-out origin-center"
-                    style={{ transform: `scale(${scale})` }}
-                >
-                    <img 
-                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" 
-                        alt="Map Background"
-                        className="w-full h-full object-cover opacity-10 hidden" 
-                    />
-                    {/* CSS Dark Map Pattern */}
-                    <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
-                        backgroundImage: `radial-gradient(#333 1px, transparent 1px), radial-gradient(#222 1px, transparent 1px)`,
-                        backgroundSize: '20px 20px',
-                        backgroundPosition: '0 0, 10px 10px'
-                    }}>
-                        {/* Simulated Roads */}
-                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-20">
-                             {/* Axis (BR-040 approx) */}
-                             <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#555" strokeWidth="12" fill="none" />
-                             <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#FBBC04" strokeWidth="2" fill="none" strokeDasharray="10 5" />
-                        </svg>
-                    </div>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black via-transparent to-black opacity-80 pointer-events-none"></div>
-                    
-                    {/* Map Pins (Inside Scaled Container) */}
-                    <div className="absolute inset-0 z-10">
-                        {MAP_LOCATIONS.map((loc) => (
-                            <div 
-                                key={loc.id}
-                                className="absolute flex flex-col items-center group cursor-pointer hover:z-50"
-                                style={{ left: `${loc.coords.x}%`, top: `${loc.coords.y}%` }}
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setSelectedLocation(loc);
-                                }}
-                            >
-                                <div className="relative">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                    <MapPin 
-                                        size={28 / scale} // Scale down icon size inversely to zoom to keep it readable
-                                        className={`relative z-10 transform transition-all duration-300 group-hover:-translate-y-2 drop-shadow-lg ${loc.status === 'visited' ? 'text-blue-500 fill-blue-500' : 'text-purple-500 fill-purple-500'}`} 
+        <div className="bg-[#1A1A1A] rounded-2xl p-0 mb-6 overflow-hidden relative h-[400px] border border-white/5 shadow-2xl group z-0">
+            
+            <TransformWrapper
+                initialScale={1}
+                minScale={1}
+                maxScale={4}
+                centerOnInit={true}
+                limitToBounds={true}
+                wheel={{ step: 0.1 }}
+            >
+                {({ zoomIn, zoomOut, resetTransform }) => (
+                    <>
+                        {/* Zoom Controls */}
+                        <div className="absolute bottom-4 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
+                            <button onClick={() => zoomIn()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
+                                <ZoomIn size={20} />
+                            </button>
+                            <button onClick={() => zoomOut()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
+                                <ZoomOut size={20} />
+                            </button>
+                        </div>
+
+                        <TransformComponent 
+                            wrapperClass="w-full h-full" 
+                            contentClass="w-full h-full"
+                            wrapperStyle={{ width: "100%", height: "100%" }}
+                            contentStyle={{ width: "100%", height: "100%" }}
+                        >
+                            <div className="w-full h-full relative bg-[#111] min-h-[400px]">
+                                {/* Dark Map Background Image (Simulated) */}
+                                <div className="absolute inset-0 z-0 overflow-hidden">
+                                    <img 
+                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" 
+                                        alt="Map Background"
+                                        className="w-full h-full object-cover opacity-5 hidden" 
                                     />
-                                </div>
-                                <div className="bg-black/80 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 mt-1 transform scale-75 opacity-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                    <span className="text-[10px] font-bold text-white whitespace-nowrap" style={{ fontSize: `${10 / scale}px` }}>
-                                        {loc.name}
-                                    </span>
+                                    {/* CSS Dark Map Pattern */}
+                                    <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
+                                        backgroundImage: `radial-gradient(#333 1px, transparent 1px), radial-gradient(#222 1px, transparent 1px)`,
+                                        backgroundSize: '20px 20px',
+                                        backgroundPosition: '0 0, 10px 10px'
+                                    }}>
+                                        {/* Simulated Roads */}
+                                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
+                                            {/* Axis (BR-040 approx) */}
+                                            <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#555" strokeWidth="12" fill="none" />
+                                            <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#FBBC04" strokeWidth="2" fill="none" strokeDasharray="10 5" />
+                                        </svg>
+                                    </div>
+                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/80 pointer-events-none"></div>
+                                    
+                                    {/* Map Pins */}
+                                    <div className="absolute inset-0 z-10 w-full h-full">
+                                        {MAP_LOCATIONS.map((loc) => (
+                                            <div 
+                                                key={loc.id}
+                                                className="absolute flex flex-col items-center group cursor-pointer hover:z-50"
+                                                style={{ left: `${loc.coords.x}%`, top: `${loc.coords.y}%` }}
+                                                onClick={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedLocation(loc);
+                                                }}
+                                                onTouchEnd={(e) => {
+                                                    e.stopPropagation();
+                                                    setSelectedLocation(loc);
+                                                }}
+                                            >
+                                                <div className="relative">
+                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                                                    <MapPin 
+                                                        size={28} 
+                                                        className={`relative z-10 transform transition-all duration-300 group-hover:-translate-y-2 drop-shadow-lg ${loc.status === 'visited' ? 'text-blue-500 fill-blue-500' : 'text-purple-500 fill-purple-500'}`} 
+                                                    />
+                                                </div>
+                                                <div className="bg-black/80 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 mt-1 transform scale-75 opacity-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
+                                                    <span className="text-[10px] font-bold text-white whitespace-nowrap">
+                                                        {loc.name}
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            </div>
+                        </TransformComponent>
+                    </>
+                )}
+            </TransformWrapper>
 
             <div className="absolute top-4 left-4 z-20 pointer-events-none">
                 <h3 className="text-white font-bold text-lg drop-shadow-md">Mapa do Nosso Amor</h3>
                 <p className="text-blue-300 text-xs drop-shadow-md">Brasília & Valparaíso</p>
-            </div>
-
-            {/* Zoom Controls */}
-            <div className="absolute bottom-4 right-4 z-20 flex flex-col gap-2">
-                <button onClick={handleZoomIn} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
-                    <Maximize2 size={20} />
-                </button>
-                <button onClick={handleZoomOut} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
-                    <X size={20} className="transform rotate-45" /> {/* Using X as Minimize/Reset visual for now or just generic zoom out */}
-                </button>
             </div>
             
             {/* Location Detail Modal/Overlay */}
@@ -354,23 +376,55 @@ export const WordGameWidget: React.FC = () => {
 
 // --- Gallery Widget ---
 export const GalleryWidget: React.FC = () => {
+    const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
+    useBackHandler(!!selectedImage, () => setSelectedImage(null));
+
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5">
-            <h3 className="text-white font-bold text-lg mb-4 flex justify-between items-center">
-                Galeria
-                <Camera size={16} className="text-gray-400" />
-            </h3>
-            <div className="grid grid-cols-2 gap-3">
-                {GALLERY_IMAGES.map((img) => (
-                    <div key={img.id} className="relative aspect-square rounded-xl overflow-hidden group">
-                        <img src={img.url} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                            <span className="text-xs font-medium text-white">{img.caption}</span>
+        <>
+            <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5">
+                <h3 className="text-white font-bold text-lg mb-4 flex justify-between items-center">
+                    Galeria
+                    <Camera size={16} className="text-gray-400" />
+                </h3>
+                <div className="grid grid-cols-2 gap-3">
+                    {GALLERY_IMAGES.map((img) => (
+                        <div 
+                            key={img.id} 
+                            className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer"
+                            onClick={() => setSelectedImage(img)}
+                        >
+                            <img src={img.url} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
+                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
+                                <span className="text-xs font-medium text-white">{img.caption}</span>
+                            </div>
                         </div>
-                    </div>
-                ))}
+                    ))}
+                </div>
             </div>
-        </div>
+
+            {/* Fullscreen Image Modal */}
+            {selectedImage && (
+                <div 
+                    className="fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-200"
+                    onClick={() => setSelectedImage(null)}
+                >
+                    <button className="absolute top-6 right-6 text-white/80 hover:text-white p-2 bg-black/50 rounded-full z-50">
+                        <X size={24} />
+                    </button>
+                    <img 
+                        src={selectedImage.url} 
+                        alt={selectedImage.caption} 
+                        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl scale-100" 
+                        onClick={(e) => e.stopPropagation()} 
+                    />
+                    <div className="absolute bottom-10 left-0 right-0 text-center pointer-events-none">
+                        <p className="text-white font-bold text-xl drop-shadow-lg bg-black/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm">
+                            {selectedImage.caption}
+                        </p>
+                    </div>
+                </div>
+            )}
+        </>
     );
 };
 
@@ -379,6 +433,8 @@ export const ContractWidget: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [signatures, setSignatures] = useState({ leo: false, ge: false });
     const [scanning, setScanning] = useState({ leo: false, ge: false });
+    
+    useBackHandler(isOpen, () => setIsOpen(false));
 
     const handleSign = (person: 'leo' | 'ge') => {
         if (signatures[person] || scanning[person]) return;

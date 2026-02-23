@@ -3,6 +3,7 @@ import { PlayCircle, Share2, MoreHorizontal, X, Music, ExternalLink } from 'luci
 import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
 import MusicBar from './components/MusicBar';
 import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget, ContractWidget } from './components/Widgets';
+import { useBackHandler } from './hooks/useBackHandler';
 
 const FloatingHearts = () => {
     // Generate an array of random positions for hearts
@@ -83,6 +84,7 @@ const CarouselCard = () => {
 
 const App: React.FC = () => {
   const [showFullHero, setShowFullHero] = useState(false);
+  useBackHandler(showFullHero, () => setShowFullHero(false));
   const heroImage = "https://iili.io/qJbwiNt.jpg";
   const logoImage = "https://iili.io/qJbDx6v.png";
   const playlistLink = "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q";
