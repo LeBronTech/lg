@@ -1,8 +1,8 @@
 import { TimelineEvent, MapLocation, GalleryImage } from './types';
 
 export const COUPLE_NAMES = "Léo & Gê";
-// March 1, 2026, 13:00
-export const START_DATE = new Date("2026-03-01T13:00:00"); 
+// March 1, 2026, 12:30
+export const START_DATE = new Date("2026-03-01T12:30:00"); 
 export const SONG_TITLE = "Tantos Mares";
 export const ARTIST_NAME = "Pedro Valença";
 export const YOUTUBE_ID = "vCPCfvXjXIs";
@@ -58,8 +58,8 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   { 
     id: 4, 
     date: "01 Mar 2026", 
-    title: "O Grande Dia", 
-    description: "O dia em que a contagem regressiva termina e a nossa eternidade começa. Aceita caminhar comigo?", 
+    title: "O Início de uma Eternidade", 
+    description: "O dia que iniciamos nossa história. Hoje, quero firmar meu compromisso contigo. Você é minha melhor escolha, meu riso fácil e minha paz. Aceita namorar comigo?", 
     icon: 'star',
     image: IMAGES.hero
   },

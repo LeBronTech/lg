@@ -53,8 +53,8 @@ export const RelationshipTimer: React.FC = () => {
                 <TimeUnit val={time.seconds} label="Seg" />
             </div>
             {!isFuture && (
-                <p className="text-center text-xs text-gray-500 mt-3 animate-pulse">
-                    E contando... para sempre 💙
+                <p className="text-center text-xs text-gray-500 mt-3 animate-pulse px-4">
+                    Cada dia ao teu lado, é uma nova oportunidade de ser o casal mais brega do mundo 💙
                 </p>
             )}
         </div>
