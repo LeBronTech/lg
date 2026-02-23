@@ -71,6 +71,9 @@ export const MAP_LOCATIONS: MapLocation[] = [
   { id: 3, name: "Igreja Santa Mãe de Deus", status: 'visited', coords: { x: 55, y: 50 } }, 
   { id: 4, name: "Nossa Sra. da Providência", status: 'visited', coords: { x: 40, y: 55 } }, 
   { id: 5, name: "Retiro JSC", status: 'visited', coords: { x: 45, y: 80 } }, // Was Casa Dela
+  { id: 6, name: "Paróquia São José", status: 'visited', coords: { x: 50, y: 35 } }, // Candangolândia
+  { id: 7, name: "Zoológico de Brasília", status: 'visited', coords: { x: 60, y: 30 } },
+  { id: 8, name: "Paróquia N.S. de Fátima", status: 'visited', coords: { x: 20, y: 50 } }, // Taguatinga Sul
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
