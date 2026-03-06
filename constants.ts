@@ -20,6 +20,9 @@ const IMAGES = {
   meeting: "https://iili.io/qJbNKib.jpg",
   firstDate: "https://iili.io/q2xtQna.png",
   kiss: "https://iili.io/qJbsjJ1.jpg",
+  eternity: "https://iili.io/qnZv51S.jpg",
+  providencia: "https://iili.io/qnZm1LB.jpg",
+  caminhada: "https://iili.io/qnt3aWJ.jpg",
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -61,7 +64,15 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     title: "O Início de uma Eternidade", 
     description: "O dia que iniciamos nossa história. Hoje, quero firmar meu compromisso contigo. Você é minha melhor escolha, meu riso fácil e minha paz. Aceita namorar comigo?", 
     icon: 'star',
-    image: IMAGES.hero
+    image: IMAGES.eternity
+  },
+  { 
+    id: 6, 
+    date: "02 Mar 2026", 
+    title: "Caminhada e Terço", 
+    description: "Nossa primeira caminhada juntos e o nosso primeiro terço. Um momento de oração e conexão que fortaleceu ainda mais o que estamos construindo.", 
+    icon: 'heart',
+    image: IMAGES.caminhada
   },
 ];
 
@@ -69,7 +80,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
 export const MAP_LOCATIONS: MapLocation[] = [
   { id: 2, name: "Comunidade Shalom", description: "Apresentei minha família santa", status: 'visited', coords: { x: 35, y: 45 } }, 
   { id: 3, name: "Igreja Santa Mãe de Deus", description: "Onde tudo começou", status: 'visited', coords: { x: 55, y: 50 } }, 
-  { id: 4, name: "Nossa Sra. da Providência", description: "O padre esperando a gente pra começar a missa", status: 'visited', coords: { x: 40, y: 55 } }, 
+  { id: 4, name: "Nossa Sra. da Providência", description: "Onde rezamos nosso primeiro terço juntos. Um momento de muita paz e entrega.", image: IMAGES.providencia, status: 'visited', coords: { x: 40, y: 55 } }, 
   { id: 5, name: "Retiro JSC", description: "Onde nos vimos pela primeira vez", status: 'visited', coords: { x: 45, y: 80 } }, 
   { id: 6, name: "Paróquia São José", description: "O início de uma eternidade", status: 'visited', coords: { x: 50, y: 35 } }, 
   { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
@@ -81,7 +92,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 2, url: IMAGES.meeting, caption: "Mãos dadas" },
   { id: 5, url: IMAGES.firstDate, caption: "Flor de guardanapo" },
   { id: 3, url: IMAGES.kiss, caption: "Beijo e confissão" },
-  { id: 4, url: IMAGES.hero, caption: "Nós dois" },
+  { id: 4, url: IMAGES.eternity, caption: "Início da Eternidade" },
 ];
 
 export const WORD_GAME_SECRET = "VIDA";

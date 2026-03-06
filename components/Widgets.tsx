@@ -297,14 +297,23 @@ export const MapWidget: React.FC = () => {
             {/* Location Detail Modal/Overlay */}
             {selectedLocation && (
                 <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setSelectedLocation(null)}>
-                    <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl p-6 max-w-xs w-full shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-                        <button className="absolute top-2 right-2 text-gray-400 hover:text-white" onClick={() => setSelectedLocation(null)}>
+                    <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden max-w-xs w-full shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
+                        <button className="absolute top-2 right-2 z-10 text-white/70 hover:text-white bg-black/40 rounded-full p-1" onClick={() => setSelectedLocation(null)}>
                             <X size={18} />
                         </button>
-                        <div className="flex flex-col items-center text-center">
-                            <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-3">
-                                <MapPin size={24} className="text-blue-400 fill-blue-400" />
+                        
+                        {selectedLocation.image && (
+                            <div className="w-full aspect-video overflow-hidden">
+                                <img src={selectedLocation.image} alt={selectedLocation.name} className="w-full h-full object-cover" />
                             </div>
+                        )}
+
+                        <div className="flex flex-col items-center text-center p-6">
+                            {!selectedLocation.image && (
+                                <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-3">
+                                    <MapPin size={24} className="text-blue-400 fill-blue-400" />
+                                </div>
+                            )}
                             <h4 className="text-xl font-bold text-white mb-2">{selectedLocation.name}</h4>
                             <p className="text-gray-300 text-sm italic">"{selectedLocation.description || 'Um lugar especial...'}"</p>
                         </div>

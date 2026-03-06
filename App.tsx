@@ -84,10 +84,32 @@ const CarouselCard = () => {
 
 const App: React.FC = () => {
   const [showFullHero, setShowFullHero] = useState(false);
+  const [hasStarted, setHasStarted] = useState(false);
   useBackHandler(showFullHero, () => setShowFullHero(false));
   const heroImage = "https://iili.io/qJbwiNt.jpg";
   const logoImage = "https://iili.io/qJbDx6v.png";
   const playlistLink = "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q";
+
+  if (!hasStarted) {
+    return (
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
+        <div className="max-w-md w-full text-center animate-in fade-in zoom-in duration-700">
+            <div className="relative mb-8">
+                <div className="absolute inset-0 bg-blue-500 blur-3xl opacity-20 rounded-full animate-pulse"></div>
+                <img src={logoImage} alt="Logo" className="w-32 h-32 object-contain mx-auto relative z-10 drop-shadow-2xl" />
+            </div>
+            <h1 className="text-4xl font-handwriting font-bold mb-4 text-white">{COUPLE_NAMES}</h1>
+            <p className="text-blue-200 mb-8 font-medium italic">"Onde cada detalhe conta a nossa história..."</p>
+            <button 
+                onClick={() => setHasStarted(true)}
+                className="bg-white text-black px-10 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 mx-auto"
+            >
+                Entrar <PlayCircle size={20} />
+            </button>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-black text-white flex justify-center">

@@ -11,6 +11,7 @@ export interface MapLocation {
   id: number;
   name: string;
   description?: string;
+  image?: string;
   status: 'visited' | 'dream';
   coords: { x: number; y: number }; // Percentage for abstract map
 }
