@@ -191,6 +191,13 @@ const App: React.FC = () => {
                  </a>
              </div>
 
+            {/* Final Cursive Phrase */}
+            <div className="mt-12 mb-16 text-center animate-in fade-in slide-in-from-bottom-4 duration-1000 delay-500">
+                <p className="font-handwriting text-4xl text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                    Te Gosto Mil Milhões 💙
+                </p>
+            </div>
+
         </div>
 
         {/* Fullscreen Hero Image Modal */}
