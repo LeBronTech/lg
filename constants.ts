@@ -44,7 +44,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   { 
     id: 5, 
-    date: "02 Fev 2026", 
+    date: "01 Fev 2016", 
     title: "Nosso Café", 
     description: "Na padaria, fiz uma flor de guardanapo para você. Ali, entre conversas e café, nos conhecemos melhor.", 
     icon: 'camera',
@@ -85,6 +85,7 @@ export const MAP_LOCATIONS: MapLocation[] = [
   { id: 6, name: "Paróquia São José", description: "O início de uma eternidade", status: 'visited', coords: { x: 50, y: 35 } }, 
   { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
   { id: 8, name: "Paróquia N.S. de Fátima", description: "Nossa primeira missão juntos", status: 'visited', coords: { x: 20, y: 50 } }, 
+  { id: 9, name: "Basílica", description: "Nossa primeira vigília juntos", status: 'visited', coords: { x: 70, y: 40 } },
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [

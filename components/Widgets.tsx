@@ -205,20 +205,25 @@ export const MapWidget: React.FC = () => {
             <TransformWrapper
                 initialScale={1}
                 minScale={1}
-                maxScale={4}
+                maxScale={6}
                 centerOnInit={true}
-                limitToBounds={true}
+                limitToBounds={false}
                 wheel={{ step: 0.1 }}
+                pinch={{ step: 5 }}
+                doubleClick={{ disabled: false }}
             >
-                {({ zoomIn, zoomOut, resetTransform }) => (
+                {(ref) => (
                     <>
                         {/* Zoom Controls */}
                         <div className="absolute bottom-4 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
-                            <button onClick={() => zoomIn()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
+                            <button onClick={() => ref.zoomIn()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
                                 <ZoomIn size={20} />
                             </button>
-                            <button onClick={() => zoomOut()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
+                            <button onClick={() => ref.zoomOut()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
                                 <ZoomOut size={20} />
+                            </button>
+                            <button onClick={() => ref.resetTransform()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
+                                <Maximize2 size={20} />
                             </button>
                         </div>
 
@@ -228,25 +233,21 @@ export const MapWidget: React.FC = () => {
                             wrapperStyle={{ width: "100%", height: "100%" }}
                             contentStyle={{ width: "100%", height: "100%" }}
                         >
-                            <div className="w-full h-full relative bg-[#111] min-h-[400px]">
+                            <div className="w-[200%] h-[200%] relative bg-[#111] -left-1/2 -top-1/2">
                                 {/* Dark Map Background Image (Simulated) */}
                                 <div className="absolute inset-0 z-0 overflow-hidden">
-                                    <img 
-                                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Openstreetmap_logo.svg/1024px-Openstreetmap_logo.svg.png" 
-                                        alt="Map Background"
-                                        className="w-full h-full object-cover opacity-5 hidden" 
-                                    />
                                     {/* CSS Dark Map Pattern */}
                                     <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
                                         backgroundImage: `radial-gradient(#333 1px, transparent 1px), radial-gradient(#222 1px, transparent 1px)`,
-                                        backgroundSize: '20px 20px',
-                                        backgroundPosition: '0 0, 10px 10px'
+                                        backgroundSize: '40px 40px',
+                                        backgroundPosition: '0 0, 20px 20px'
                                     }}>
                                         {/* Simulated Roads */}
                                         <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-                                            {/* Axis (BR-040 approx) */}
                                             <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#555" strokeWidth="12" fill="none" />
                                             <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#FBBC04" strokeWidth="2" fill="none" strokeDasharray="10 5" />
+                                            <path d="M 0% 40% Q 50% 45% 100% 40%" stroke="#444" strokeWidth="8" fill="none" />
+                                            <path d="M 20% 0% L 80% 100%" stroke="#333" strokeWidth="4" fill="none" />
                                         </svg>
                                     </div>
                                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/80 pointer-events-none"></div>
@@ -257,12 +258,12 @@ export const MapWidget: React.FC = () => {
                                             <div 
                                                 key={loc.id}
                                                 className="absolute flex flex-col items-center group cursor-pointer hover:z-50"
-                                                style={{ left: `${loc.coords.x}%`, top: `${loc.coords.y}%` }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setSelectedLocation(loc);
+                                                style={{ 
+                                                    left: `${loc.coords.x}%`, 
+                                                    top: `${loc.coords.y}%`,
+                                                    transform: `translate(-50%, -50%) scale(${1 / Math.sqrt(ref.instance.transformState.scale)})`
                                                 }}
-                                                onTouchEnd={(e) => {
+                                                onClick={(e) => {
                                                     e.stopPropagation();
                                                     setSelectedLocation(loc);
                                                 }}
