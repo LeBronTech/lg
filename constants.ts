@@ -23,6 +23,7 @@ const IMAGES = {
   eternity: "https://iili.io/qnZv51S.jpg",
   providencia: "https://iili.io/qnZm1LB.jpg",
   caminhada: "https://iili.io/qnt3aWJ.jpg",
+  basilica: "https://iili.io/qVCgxee.jpg",
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -85,7 +86,7 @@ export const MAP_LOCATIONS: MapLocation[] = [
   { id: 6, name: "Paróquia São José", description: "O início de uma eternidade", status: 'visited', coords: { x: 50, y: 35 } }, 
   { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
   { id: 8, name: "Paróquia N.S. de Fátima", description: "Nossa primeira missão juntos", status: 'visited', coords: { x: 20, y: 50 } }, 
-  { id: 9, name: "Basílica", description: "Nossa primeira vigília juntos", status: 'visited', coords: { x: 70, y: 40 } },
+  { id: 9, name: "Basílica", description: "Nossa primeira vigília juntos", image: IMAGES.basilica, status: 'visited', coords: { x: 70, y: 40 } },
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
@@ -94,6 +95,8 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 5, url: IMAGES.firstDate, caption: "Flor de guardanapo" },
   { id: 3, url: IMAGES.kiss, caption: "Beijo e confissão" },
   { id: 4, url: IMAGES.eternity, caption: "Início da Eternidade" },
+  { id: 6, url: IMAGES.providencia, caption: "Nossa Sra. da Providência" },
+  { id: 7, url: IMAGES.basilica, caption: "Basílica" },
 ];
 
 export const WORD_GAME_SECRET = "VIDA";

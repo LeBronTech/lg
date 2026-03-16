@@ -194,129 +194,89 @@ export const TimelineWidget: React.FC = () => {
     );
 };
 
-// --- Map Widget ---
-export const MapWidget: React.FC = () => {
+// --- Places Timeline Widget (Replacing Map) ---
+export const PlacesTimelineWidget: React.FC = () => {
     const [selectedLocation, setSelectedLocation] = useState<MapLocation | null>(null);
+    const [isExpanded, setIsExpanded] = useState(false);
     useBackHandler(!!selectedLocation, () => setSelectedLocation(null));
 
+    const displayedLocations = isExpanded ? MAP_LOCATIONS : MAP_LOCATIONS.slice(0, 4);
+
     return (
-        <div className="bg-[#1A1A1A] rounded-2xl p-0 mb-6 overflow-hidden relative h-[400px] border border-white/5 shadow-2xl group z-0">
-            
-            <TransformWrapper
-                initialScale={1}
-                minScale={1}
-                maxScale={6}
-                centerOnInit={true}
-                limitToBounds={false}
-                wheel={{ step: 0.1 }}
-                pinch={{ step: 5 }}
-                doubleClick={{ disabled: false }}
-            >
-                {(ref) => (
-                    <>
-                        {/* Zoom Controls */}
-                        <div className="absolute bottom-4 right-4 z-20 flex flex-col gap-2 pointer-events-auto">
-                            <button onClick={() => ref.zoomIn()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
-                                <ZoomIn size={20} />
-                            </button>
-                            <button onClick={() => ref.zoomOut()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
-                                <ZoomOut size={20} />
-                            </button>
-                            <button onClick={() => ref.resetTransform()} className="bg-black/50 backdrop-blur-md text-white p-2 rounded-full border border-white/10 hover:bg-black/80 transition-colors">
-                                <Maximize2 size={20} />
-                            </button>
-                        </div>
-
-                        <TransformComponent 
-                            wrapperClass="w-full h-full" 
-                            contentClass="w-full h-full"
-                            wrapperStyle={{ width: "100%", height: "100%" }}
-                            contentStyle={{ width: "100%", height: "100%" }}
-                        >
-                            <div className="w-[200%] h-[200%] relative bg-[#111] -left-1/2 -top-1/2">
-                                {/* Dark Map Background Image (Simulated) */}
-                                <div className="absolute inset-0 z-0 overflow-hidden">
-                                    {/* CSS Dark Map Pattern */}
-                                    <div className="w-full h-full bg-[#111] relative overflow-hidden" style={{
-                                        backgroundImage: `radial-gradient(#333 1px, transparent 1px), radial-gradient(#222 1px, transparent 1px)`,
-                                        backgroundSize: '40px 40px',
-                                        backgroundPosition: '0 0, 20px 20px'
-                                    }}>
-                                        {/* Simulated Roads */}
-                                        <svg className="absolute inset-0 w-full h-full pointer-events-none opacity-30">
-                                            <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#555" strokeWidth="12" fill="none" />
-                                            <path d="M 45% 0% Q 55% 50% 45% 100%" stroke="#FBBC04" strokeWidth="2" fill="none" strokeDasharray="10 5" />
-                                            <path d="M 0% 40% Q 50% 45% 100% 40%" stroke="#444" strokeWidth="8" fill="none" />
-                                            <path d="M 20% 0% L 80% 100%" stroke="#333" strokeWidth="4" fill="none" />
-                                        </svg>
-                                    </div>
-                                    <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/80 pointer-events-none"></div>
-                                    
-                                    {/* Map Pins */}
-                                    <div className="absolute inset-0 z-10 w-full h-full">
-                                        {MAP_LOCATIONS.map((loc) => (
-                                            <div 
-                                                key={loc.id}
-                                                className="absolute flex flex-col items-center group cursor-pointer hover:z-50"
-                                                style={{ 
-                                                    left: `${loc.coords.x}%`, 
-                                                    top: `${loc.coords.y}%`,
-                                                    transform: `translate(-50%, -50%) scale(${1 / Math.sqrt(ref.instance.transformState.scale)})`
-                                                }}
-                                                onClick={(e) => {
-                                                    e.stopPropagation();
-                                                    setSelectedLocation(loc);
-                                                }}
-                                            >
-                                                <div className="relative">
-                                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                                                    <MapPin 
-                                                        size={28} 
-                                                        className={`relative z-10 transform transition-all duration-300 group-hover:-translate-y-2 drop-shadow-lg ${loc.status === 'visited' ? 'text-blue-500 fill-blue-500' : 'text-purple-500 fill-purple-500'}`} 
-                                                    />
-                                                </div>
-                                                <div className="bg-black/80 backdrop-blur-md px-3 py-1 rounded-lg border border-white/10 mt-1 transform scale-75 opacity-75 group-hover:scale-100 group-hover:opacity-100 transition-all duration-300">
-                                                    <span className="text-[10px] font-bold text-white whitespace-nowrap">
-                                                        {loc.name}
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-                        </TransformComponent>
-                    </>
-                )}
-            </TransformWrapper>
-
-            <div className="absolute top-4 left-4 z-20 pointer-events-none">
-                <h3 className="text-white font-bold text-lg drop-shadow-md">Mapa do Nosso Amor</h3>
-                <p className="text-blue-300 text-xs drop-shadow-md">Brasília & Valparaíso</p>
+        <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5 shadow-2xl">
+            <div className="flex items-center justify-between mb-6">
+                <div>
+                    <h3 className="text-white font-bold text-lg">Lugares do Nosso Amor</h3>
+                    <p className="text-blue-300 text-xs">Brasília & Valparaíso</p>
+                </div>
+                <MapPin size={20} className="text-blue-400" />
             </div>
-            
-            {/* Location Detail Modal/Overlay */}
+
+            <div className="space-y-4">
+                {displayedLocations.map((loc, index) => {
+                    const isFourth = !isExpanded && index === 3;
+                    return (
+                        <div 
+                            key={loc.id}
+                            className={`flex items-center gap-4 bg-white/5 p-3 rounded-xl border border-white/10 cursor-pointer hover:bg-white/10 transition-colors group relative overflow-hidden ${isFourth ? 'opacity-80' : ''}`}
+                            onClick={() => setSelectedLocation(loc)}
+                        >
+                            {isFourth && (
+                                <div className="absolute inset-0 bg-blue-600/20 backdrop-blur-[1px] pointer-events-none border border-blue-500/30 rounded-xl"></div>
+                            )}
+                            <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 flex items-center justify-center">
+                                {loc.image ? (
+                                    <img src={loc.image} alt={loc.name} className="w-full h-full object-cover" />
+                                ) : (
+                                    <MapPin size={20} className="text-blue-500/50" />
+                                )}
+                            </div>
+                            <div className="flex-1 min-w-0">
+                                <h4 className="text-white font-bold text-sm truncate">{loc.name}</h4>
+                                <p className="text-gray-400 text-xs truncate">{loc.description}</p>
+                            </div>
+                            <div className="text-blue-500 opacity-0 group-hover:opacity-100 transition-opacity">
+                                <Maximize2 size={14} />
+                            </div>
+                        </div>
+                    );
+                })}
+            </div>
+
+            {MAP_LOCATIONS.length > 4 && (
+                <button 
+                    onClick={() => setIsExpanded(!isExpanded)}
+                    className="w-full mt-4 py-3 text-blue-400 text-xs font-bold border border-blue-500/20 rounded-xl bg-blue-500/5 hover:bg-blue-500/10 transition-all flex items-center justify-center gap-2 uppercase tracking-widest"
+                >
+                    {isExpanded ? (
+                        <>Ver menos <ZoomOut size={14} /></>
+                    ) : (
+                        <>Ver mais {MAP_LOCATIONS.length - 4} locais <ZoomIn size={14} /></>
+                    )}
+                </button>
+            )}
+
+            {/* Location Detail Modal */}
             {selectedLocation && (
-                <div className="absolute inset-0 z-30 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setSelectedLocation(null)}>
-                    <div className="bg-[#1A1A1A] border border-white/10 rounded-2xl overflow-hidden max-w-xs w-full shadow-2xl relative" onClick={(e) => e.stopPropagation()}>
-                        <button className="absolute top-2 right-2 z-10 text-white/70 hover:text-white bg-black/40 rounded-full p-1" onClick={() => setSelectedLocation(null)}>
-                            <X size={18} />
+                <div className="fixed inset-0 z-[100] bg-black/95 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200" onClick={() => setSelectedLocation(null)}>
+                    <div className="bg-[#1A1A1A] border border-white/10 rounded-3xl overflow-hidden max-w-sm w-full shadow-2xl relative animate-in zoom-in-95 duration-300" onClick={(e) => e.stopPropagation()}>
+                        <button className="absolute top-4 right-4 z-10 text-white/70 hover:text-white bg-black/40 rounded-full p-2 backdrop-blur-md" onClick={() => setSelectedLocation(null)}>
+                            <X size={20} />
                         </button>
                         
-                        {selectedLocation.image && (
-                            <div className="w-full aspect-video overflow-hidden">
+                        {selectedLocation.image ? (
+                            <div className="w-full aspect-square overflow-hidden">
                                 <img src={selectedLocation.image} alt={selectedLocation.name} className="w-full h-full object-cover" />
+                            </div>
+                        ) : (
+                            <div className="w-full aspect-video bg-blue-500/10 flex items-center justify-center">
+                                <MapPin size={48} className="text-blue-500/30" />
                             </div>
                         )}
 
-                        <div className="flex flex-col items-center text-center p-6">
-                            {!selectedLocation.image && (
-                                <div className="w-12 h-12 bg-blue-500/20 rounded-full flex items-center justify-center mb-3">
-                                    <MapPin size={24} className="text-blue-400 fill-blue-400" />
-                                </div>
-                            )}
-                            <h4 className="text-xl font-bold text-white mb-2">{selectedLocation.name}</h4>
-                            <p className="text-gray-300 text-sm italic">"{selectedLocation.description || 'Um lugar especial...'}"</p>
+                        <div className="p-8 text-center">
+                            <h4 className="text-2xl font-bold text-white mb-3">{selectedLocation.name}</h4>
+                            <p className="text-gray-300 text-lg italic leading-relaxed">"{selectedLocation.description || 'Um lugar especial...'}"</p>
                         </div>
                     </div>
                 </div>

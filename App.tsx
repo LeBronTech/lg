@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { PlayCircle, Share2, MoreHorizontal, X, Music, ExternalLink } from 'lucide-react';
 import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
 import MusicBar from './components/MusicBar';
-import { RelationshipTimer, TimelineWidget, MapWidget, WordGameWidget, GalleryWidget, ContractWidget } from './components/Widgets';
+import { RelationshipTimer, TimelineWidget, PlacesTimelineWidget, WordGameWidget, GalleryWidget, ContractWidget } from './components/Widgets';
 import { useBackHandler } from './hooks/useBackHandler';
 
 const FloatingHearts = () => {
@@ -160,7 +160,7 @@ const App: React.FC = () => {
 
             {/* Widgets */}
             <TimelineWidget />
-            <MapWidget />
+            <PlacesTimelineWidget />
             <WordGameWidget />
             <GalleryWidget />
             <ContractWidget />
