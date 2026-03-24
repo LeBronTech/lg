@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useMotionValue, useTransform } from 'motion/react';
 import { GALLERY_IMAGES, COUPLE_NAMES } from '../constants';
 import { ChevronLeft, ChevronRight, Heart, BookOpen } from 'lucide-react';
@@ -49,6 +49,13 @@ const Sticker = ({ position }: { position: 'top-left' | 'top-right' | 'bottom-le
 export const BookGallery: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // 0 is cover, 1+ are content pages
   const [direction, setDirection] = useState(0);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (currentPage > 0 && containerRef.current) {
+      containerRef.current.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, [currentPage]);
   
   const imagesPerPage = 2;
   const totalContentPages = Math.ceil(GALLERY_IMAGES.length / imagesPerPage);
@@ -171,11 +178,13 @@ export const BookGallery: React.FC = () => {
   };
 
   return (
-    <div className="mb-12 px-2 overflow-hidden">
-      <h3 className="text-white font-bold text-xl mb-6 flex items-center gap-2 px-2">
-        <Heart size={20} className="text-blue-500 fill-blue-500" />
-        Álbum de Memórias
-      </h3>
+    <div ref={containerRef} className="mb-12 px-2 overflow-hidden scroll-mt-20 flex flex-col items-center">
+      <div className="w-full max-w-lg">
+        <h3 className="text-white font-bold text-xl mb-6 flex items-center gap-2 px-2">
+          <Heart size={20} className="text-blue-500 fill-blue-500" />
+          Álbum de Memórias
+        </h3>
+      </div>
 
       <div className="relative aspect-[1.3/1] w-full max-w-lg mx-auto perspective-1000">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">

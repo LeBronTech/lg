@@ -384,6 +384,7 @@ export const WordGameWidget: React.FC = () => {
                             value={guess}
                             onChange={(e) => setGuess(e.target.value)}
                             onKeyDown={(e) => e.key === 'Enter' && handleGuess()}
+                            onFocus={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
                             className="bg-white/10 border border-white/20 rounded-lg px-3 py-3 text-white w-full outline-none focus:border-blue-500 text-center text-sm placeholder:text-white/20"
                             placeholder="Escreva aqui..."
                         />
