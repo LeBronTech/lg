@@ -39,7 +39,7 @@ export const BookGallery: React.FC = () => {
   };
 
   const dragX = useMotionValue(0);
-  const dragThreshold = 50;
+  const dragThreshold = 20;
 
   const onDragEnd = () => {
     const x = dragX.get();
@@ -54,7 +54,7 @@ export const BookGallery: React.FC = () => {
     enter: (direction: number) => ({
       rotateY: direction > 0 ? 90 : -90,
       opacity: 0,
-      scale: 0.9,
+      scale: 0.95,
     }),
     center: {
       rotateY: 0,
@@ -68,7 +68,7 @@ export const BookGallery: React.FC = () => {
     exit: (direction: number) => ({
       rotateY: direction < 0 ? 90 : -90,
       opacity: 0,
-      scale: 0.9,
+      scale: 0.95,
       transition: {
         rotateY: { type: "spring" as const, stiffness: 300, damping: 30 },
         opacity: { duration: 0.2 }
@@ -80,18 +80,27 @@ export const BookGallery: React.FC = () => {
     if (currentPage === 0) {
       // Cover Page
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-center p-8 border-r-2 border-amber-900/10">
-          <div className="w-24 h-24 bg-blue-500/10 rounded-full flex items-center justify-center mb-6 border-2 border-blue-500/20">
-            <BookOpen size={48} className="text-blue-500" />
+        <div className="flex-1 flex flex-col items-center justify-center text-center p-6 border-r-2 border-amber-900/10">
+          <motion.div 
+            animate={{ scale: [1, 1.1, 1] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="mb-4"
+          >
+            <Heart size={80} className="text-blue-500 fill-blue-500 drop-shadow-lg" />
+          </motion.div>
+          
+          <h2 className="text-4xl font-handwriting text-amber-900 mb-1">Nosso Álbum</h2>
+          <div className="h-px w-24 bg-amber-900/20 mb-4 mx-auto" />
+          
+          <p className="text-2xl font-handwriting text-blue-600 italic">{COUPLE_NAMES}</p>
+          
+          <div className="mt-8 flex gap-1.5">
+            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-40" />
+            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-60" />
+            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-40" />
           </div>
-          <h2 className="text-4xl font-handwriting text-amber-900 mb-2">Nosso Álbum</h2>
-          <p className="text-amber-800/60 font-serif italic text-lg">{COUPLE_NAMES}</p>
-          <div className="mt-8 flex gap-2">
-            <Heart size={16} className="text-blue-400 fill-blue-400 animate-pulse" />
-            <Heart size={16} className="text-blue-500 fill-blue-500 animate-pulse delay-75" />
-            <Heart size={16} className="text-blue-400 fill-blue-400 animate-pulse delay-150" />
-          </div>
-          <p className="mt-12 text-xs text-amber-900/30 uppercase tracking-widest font-bold">Arraste para abrir</p>
+          
+          <p className="mt-10 text-[10px] text-amber-900/30 uppercase tracking-[0.3em] font-bold">Deslize para abrir</p>
         </div>
       );
     }
@@ -100,11 +109,11 @@ export const BookGallery: React.FC = () => {
     const pageImages = GALLERY_IMAGES.slice(contentPageIndex * imagesPerPage, (contentPageIndex * imagesPerPage) + imagesPerPage);
 
     return (
-      <div className="flex-1 flex flex-row gap-4 items-center justify-center p-4">
+      <div className="flex-1 flex flex-row gap-3 items-center justify-center p-3">
         {pageImages.map((img, idx) => (
           <div 
             key={img.id} 
-            className={`relative flex-1 max-w-[45%] group ${idx % 2 === 0 ? 'rotate-1' : '-rotate-1'} transition-transform hover:rotate-0`}
+            className={`relative flex-1 max-w-[48%] group ${idx % 2 === 0 ? 'rotate-1' : '-rotate-1'} transition-transform hover:rotate-0`}
           >
             <Sticker position="top-left" />
             <Sticker position="bottom-right" />
@@ -137,7 +146,7 @@ export const BookGallery: React.FC = () => {
         Álbum de Memórias
       </h3>
 
-      <div className="relative aspect-[1.6/1] w-full max-w-lg mx-auto perspective-1000">
+      <div className="relative aspect-[1.3/1] w-full max-w-lg mx-auto perspective-1000">
         <AnimatePresence initial={false} custom={direction} mode="popLayout">
           <motion.div
             key={currentPage}
