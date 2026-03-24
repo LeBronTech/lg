@@ -26,12 +26,32 @@ const MusicBar: React.FC = () => {
     },
   };
 
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Nossa Música - Léo & Gê',
+          text: `Ouça nossa música especial: ${SONG_TITLE} - ${ARTIST_NAME}`,
+          url: window.location.href,
+        });
+      } catch (error) {
+        console.log('Error sharing', error);
+      }
+    } else {
+      // Fallback: copy to clipboard
+      navigator.clipboard.writeText(window.location.href);
+      alert('Link copiado para a área de transferência!');
+    }
+  };
+
   return (
     <div className="bg-gradient-to-b from-[#1e1e1e] to-black rounded-3xl p-6 shadow-2xl mb-6 border border-white/5 relative overflow-hidden">
       {/* Header */}
       <div className="flex justify-between items-center mb-4">
         <span className="text-2xl font-bold text-blue-500 tracking-wide">Nossa música</span>
-        <MoreHorizontal className="text-gray-400" />
+        <button onClick={handleShare} className="text-gray-400 hover:text-white transition-colors">
+            <Share2 size={20} />
+        </button>
       </div>
 
       {/* Mini YouTube Player Container */}
@@ -61,18 +81,21 @@ const MusicBar: React.FC = () => {
                 {isMuted ? <VolumeX size={22} /> : <Volume2 size={22} />}
             </button>
             <button onClick={() => setLiked(!liked)}>
-                <Heart className={`w-7 h-7 transition-colors ${liked ? 'text-green-500 fill-green-500' : 'text-white'}`} />
+                <Heart className={`w-7 h-7 transition-colors ${liked ? 'text-blue-500 fill-blue-500' : 'text-white'}`} />
             </button>
           </div>
       </div>
 
       {/* Bottom Actions */}
       <div className="flex justify-between items-center px-2 text-gray-400 border-t border-white/5 pt-4">
-          <button className="hover:text-white transition-colors flex items-center gap-2">
+          <button onClick={handleShare} className="hover:text-white transition-colors flex items-center gap-2">
               <Share2 size={18} />
               <span className="text-xs">Compartilhar</span>
           </button>
-          <div className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors">
+          <div 
+            className="flex items-center gap-2 cursor-pointer hover:text-white transition-colors"
+            onClick={() => alert("Letra: 'Tantos mares eu andei, tantas terras eu pisei... mas foi no seu olhar que eu me encontrei.'")}
+          >
              <span className="text-xs font-bold uppercase tracking-wide">Lyrics</span>
              <ListMusic size={18} />
           </div>

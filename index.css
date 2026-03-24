@@ -1,0 +1,23 @@
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #000;
+  color: white;
+}
+
+.font-handwriting {
+  font-family: 'Dancing Script', cursive;
+}
+
+/* Hide scrollbar for cleaner UI */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}

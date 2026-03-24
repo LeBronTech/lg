@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react';
-import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES } from '../constants';
-import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2, ZoomIn, ZoomOut } from 'lucide-react';
+import React, { useState, useEffect, useRef } from 'react';
+import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES, COUPLE_NAMES } from '../constants';
+import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2, ZoomIn, ZoomOut, ChevronRight, ChevronLeft, BookOpen } from 'lucide-react';
 import { TimelineEvent, MapLocation, GalleryImage } from '../types';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
 import { useBackHandler } from '../hooks/useBackHandler';
+import { motion, AnimatePresence } from 'motion/react';
 
 // --- Relationship Timer Component ---
 export const RelationshipTimer: React.FC = () => {
@@ -344,38 +345,170 @@ export const WordGameWidget: React.FC = () => {
     );
 };
 
-// --- Gallery Widget ---
+// --- Gallery Widget (Memory Book) ---
 export const GalleryWidget: React.FC = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const [currentPage, setCurrentPage] = useState(0);
+    const [direction, setDirection] = useState(0); // 1 for next, -1 for prev
     const [selectedImage, setSelectedImage] = useState<GalleryImage | null>(null);
-    useBackHandler(!!selectedImage, () => setSelectedImage(null));
+
+    useBackHandler(isOpen, () => {
+        if (selectedImage) {
+            setSelectedImage(null);
+        } else {
+            setIsOpen(false);
+        }
+    });
+
+    // Group images in pairs
+    const pages: GalleryImage[][] = [];
+    for (let i = 0; i < GALLERY_IMAGES.length; i += 2) {
+        pages.push(GALLERY_IMAGES.slice(i, i + 2));
+    }
+
+    const totalPages = pages.length;
+
+    const nextPage = () => {
+        if (currentPage < totalPages - 1) {
+            setDirection(1);
+            setCurrentPage(prev => prev + 1);
+        }
+    };
+
+    const prevPage = () => {
+        if (currentPage > 0) {
+            setDirection(-1);
+            setCurrentPage(prev => prev - 1);
+        }
+    };
+
+    const toggleBook = () => {
+        setIsOpen(!isOpen);
+        if (!isOpen) setCurrentPage(0);
+    };
 
     return (
         <>
-            <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5">
+            <div className="bg-[#1A1A1A] rounded-2xl p-5 mb-6 border border-white/5 shadow-xl overflow-hidden">
                 <h3 className="text-white font-bold text-lg mb-4 flex justify-between items-center">
-                    Galeria
-                    <Camera size={16} className="text-gray-400" />
+                    Livro de Memórias
+                    <BookOpen size={16} className="text-blue-400" />
                 </h3>
-                <div className="grid grid-cols-2 gap-3">
-                    {GALLERY_IMAGES.map((img) => (
-                        <div 
-                            key={img.id} 
-                            className="relative aspect-square rounded-xl overflow-hidden group cursor-pointer"
-                            onClick={() => setSelectedImage(img)}
-                        >
-                            <img src={img.url} alt={img.caption} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-2">
-                                <span className="text-xs font-medium text-white">{img.caption}</span>
-                            </div>
-                        </div>
-                    ))}
+
+                <div className="relative flex justify-center items-center py-4 perspective-1000">
+                    <AnimatePresence mode="wait">
+                        {!isOpen ? (
+                            // --- Book Cover ---
+                            <motion.div
+                                key="cover"
+                                initial={{ rotateY: -90, opacity: 0 }}
+                                animate={{ rotateY: 0, opacity: 1 }}
+                                exit={{ rotateY: -90, opacity: 0 }}
+                                transition={{ duration: 0.6, ease: "easeOut" }}
+                                onClick={toggleBook}
+                                className="w-full max-w-[280px] aspect-[3/4] bg-gradient-to-br from-blue-900 via-blue-800 to-slate-900 rounded-r-2xl rounded-l-md shadow-2xl cursor-pointer border-y border-r border-white/20 flex flex-col items-center justify-center p-6 text-center relative overflow-hidden group"
+                                style={{ transformOrigin: "left" }}
+                            >
+                                {/* Spine detail */}
+                                <div className="absolute left-0 top-0 bottom-0 w-4 bg-black/30 border-r border-white/10" />
+                                
+                                <div className="absolute inset-0 opacity-10 pointer-events-none">
+                                    <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-white/20 via-transparent to-transparent"></div>
+                                </div>
+
+                                <div className="relative z-10 space-y-4">
+                                    <div className="w-20 h-20 mx-auto bg-white/10 rounded-full flex items-center justify-center border border-white/20 group-hover:scale-110 transition-transform duration-500">
+                                        <Heart size={40} className="text-blue-400 fill-blue-400/20" />
+                                    </div>
+                                    <div>
+                                        <h4 className="text-2xl font-serif font-bold text-white tracking-widest uppercase">{COUPLE_NAMES}</h4>
+                                        <p className="text-blue-300 text-xs font-serif italic mt-1">Nossa História em Fotos</p>
+                                    </div>
+                                    <div className="h-px w-12 bg-blue-500/50 mx-auto"></div>
+                                    <span className="text-[10px] text-gray-400 uppercase tracking-[0.2em] font-bold">Abrir Livro</span>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            // --- Open Book (Single Page View) ---
+                            <motion.div
+                                key="book-open"
+                                initial={{ opacity: 0, scale: 0.9 }}
+                                animate={{ opacity: 1, scale: 1 }}
+                                exit={{ opacity: 0, scale: 0.9 }}
+                                className="w-full max-w-[320px] bg-[#fdfaf1] rounded-r-xl shadow-2xl relative min-h-[420px] border-y border-r border-black/10 overflow-hidden"
+                            >
+                                {/* Page Spine Shadow */}
+                                <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/20 to-transparent z-20" />
+                                
+                                {/* Header */}
+                                <div className="p-4 border-b border-black/5 flex justify-between items-center bg-black/5">
+                                    <button onClick={toggleBook} className="text-black/50 hover:text-black">
+                                        <X size={18} />
+                                    </button>
+                                    <span className="text-[10px] font-serif font-bold text-black/40 uppercase tracking-widest">Página {currentPage + 1} de {totalPages}</span>
+                                </div>
+
+                                {/* Page Content with Turn Animation */}
+                                <div className="relative h-full p-4 flex flex-col gap-4">
+                                    <AnimatePresence custom={direction} mode="popLayout">
+                                        <motion.div
+                                            key={currentPage}
+                                            custom={direction}
+                                            initial={{ rotateY: direction > 0 ? 90 : -90, opacity: 0 }}
+                                            animate={{ rotateY: 0, opacity: 1 }}
+                                            exit={{ rotateY: direction > 0 ? -90 : 90, opacity: 0 }}
+                                            transition={{ duration: 0.5, ease: "easeInOut" }}
+                                            className="flex flex-col gap-4 h-full"
+                                            style={{ transformOrigin: direction > 0 ? "left" : "right" }}
+                                        >
+                                            {pages[currentPage].map((img) => (
+                                                <div 
+                                                    key={img.id} 
+                                                    className="relative flex-1 rounded-lg overflow-hidden shadow-md border border-black/5 group cursor-pointer"
+                                                    onClick={() => setSelectedImage(img)}
+                                                >
+                                                    <img src={img.url} alt={img.caption} className="w-full h-full object-cover" />
+                                                    <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-2">
+                                                        <p className="text-[10px] text-white font-medium text-center italic">{img.caption}</p>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                            {pages[currentPage].length === 1 && (
+                                                <div className="flex-1 bg-black/5 rounded-lg border border-dashed border-black/10 flex items-center justify-center">
+                                                    <Heart size={24} className="text-black/10" />
+                                                </div>
+                                            )}
+                                        </motion.div>
+                                    </AnimatePresence>
+                                </div>
+
+                                {/* Navigation Controls */}
+                                <div className="absolute bottom-4 left-0 right-0 flex justify-between px-4 z-30">
+                                    <button 
+                                        onClick={prevPage} 
+                                        disabled={currentPage === 0}
+                                        className={`p-2 rounded-full bg-black/5 hover:bg-black/10 transition-colors ${currentPage === 0 ? 'opacity-0' : 'opacity-100'}`}
+                                    >
+                                        <ChevronLeft size={20} className="text-black" />
+                                    </button>
+                                    <button 
+                                        onClick={nextPage} 
+                                        disabled={currentPage === totalPages - 1}
+                                        className={`p-2 rounded-full bg-black/5 hover:bg-black/10 transition-colors ${currentPage === totalPages - 1 ? 'opacity-0' : 'opacity-100'}`}
+                                    >
+                                        <ChevronRight size={20} className="text-black" />
+                                    </button>
+                                </div>
+                            </motion.div>
+                        )}
+                    </AnimatePresence>
                 </div>
             </div>
 
             {/* Fullscreen Image Modal */}
             {selectedImage && (
                 <div 
-                    className="fixed inset-0 z-[90] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-200"
+                    className="fixed inset-0 z-[110] bg-black/95 backdrop-blur-xl flex items-center justify-center p-4 animate-in fade-in duration-200"
                     onClick={() => setSelectedImage(null)}
                 >
                     <button className="absolute top-6 right-6 text-white/80 hover:text-white p-2 bg-black/50 rounded-full z-50">
@@ -384,7 +517,7 @@ export const GalleryWidget: React.FC = () => {
                     <img 
                         src={selectedImage.url} 
                         alt={selectedImage.caption} 
-                        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl scale-100" 
+                        className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
                         onClick={(e) => e.stopPropagation()} 
                     />
                     <div className="absolute bottom-10 left-0 right-0 text-center pointer-events-none">

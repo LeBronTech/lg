@@ -45,7 +45,7 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
   },
   { 
     id: 5, 
-    date: "01 Fev 2016", 
+    date: "01 Fev 2026", 
     title: "Nosso Café", 
     description: "Na padaria, fiz uma flor de guardanapo para você. Ali, entre conversas e café, nos conhecemos melhor.", 
     icon: 'camera',
@@ -79,10 +79,10 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
 
 // Locations approx:
 export const MAP_LOCATIONS: MapLocation[] = [
-  { id: 2, name: "Comunidade Shalom", description: "Apresentei minha família santa", status: 'visited', coords: { x: 35, y: 45 } }, 
-  { id: 3, name: "Igreja Santa Mãe de Deus", description: "Onde tudo começou", status: 'visited', coords: { x: 55, y: 50 } }, 
-  { id: 4, name: "Nossa Sra. da Providência", description: "Onde rezamos nosso primeiro terço juntos. Um momento de muita paz e entrega.", image: IMAGES.providencia, status: 'visited', coords: { x: 40, y: 55 } }, 
   { id: 5, name: "Retiro JSC", description: "Onde nos vimos pela primeira vez", status: 'visited', coords: { x: 45, y: 80 } }, 
+  { id: 3, name: "Igreja Santa Mãe de Deus", description: "Onde tudo começou", status: 'visited', coords: { x: 55, y: 50 } }, 
+  { id: 2, name: "Comunidade Shalom", description: "Apresentei minha família santa", status: 'visited', coords: { x: 35, y: 45 } }, 
+  { id: 4, name: "Nossa Sra. da Providência", description: "Onde rezamos nosso primeiro terço juntos. Um momento de muita paz e entrega.", image: IMAGES.providencia, status: 'visited', coords: { x: 40, y: 55 } }, 
   { id: 6, name: "Paróquia São José", description: "O início de uma eternidade", status: 'visited', coords: { x: 50, y: 35 } }, 
   { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
   { id: 8, name: "Paróquia N.S. de Fátima", description: "Nossa primeira missão juntos", status: 'visited', coords: { x: 20, y: 50 } }, 
