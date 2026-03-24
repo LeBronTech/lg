@@ -4,8 +4,32 @@ import { GALLERY_IMAGES, COUPLE_NAMES } from '../constants';
 import { ChevronLeft, ChevronRight, Heart, BookOpen } from 'lucide-react';
 
 const PaperTexture = () => (
-  <div className="absolute inset-0 opacity-15 pointer-events-none mix-blend-multiply" 
-       style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
+  <div className="absolute inset-0 pointer-events-none mix-blend-multiply overflow-hidden">
+    {/* Base yellowing/aging gradient */}
+    <div className="absolute inset-0 bg-gradient-to-br from-amber-100/20 via-transparent to-amber-900/10" />
+    {/* Fiber texture */}
+    <div className="absolute inset-0 opacity-20" 
+         style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/paper-fibers.png")' }}>
+    </div>
+    {/* Subtle stains/distress */}
+    <div className="absolute inset-0 opacity-10 bg-[radial-gradient(circle_at_20%_30%,_#78350f_0%,_transparent_20%),radial-gradient(circle_at_80%_70%,_#78350f_0%,_transparent_25%)]" />
+  </div>
+);
+
+const PageStack = () => (
+  <div className="absolute inset-0 pointer-events-none">
+    {/* Simulated pages on the right edge */}
+    <div className="absolute top-1 bottom-1 -right-1 w-1 bg-white border-r border-black/10 shadow-sm" />
+    <div className="absolute top-2 bottom-2 -right-2 w-1 bg-white/90 border-r border-black/10 shadow-sm" />
+    <div className="absolute top-3 bottom-3 -right-3 w-1 bg-white/80 border-r border-black/10 shadow-sm" />
+  </div>
+);
+
+const Ribbon = () => (
+  <div className="absolute left-12 top-0 bottom-0 w-4 z-30 pointer-events-none">
+    <div className="absolute inset-0 bg-blue-600 shadow-[2px_0_5px_rgba(0,0,0,0.3)]" />
+    {/* Ribbon tail/v-cut at bottom */}
+    <div className="absolute -bottom-2 left-0 right-0 h-4 bg-blue-600" style={{ clipPath: 'polygon(0% 0%, 100% 0%, 50% 100%)' }} />
   </div>
 );
 
@@ -78,29 +102,36 @@ export const BookGallery: React.FC = () => {
 
   const renderPageContent = () => {
     if (currentPage === 0) {
-      // Cover Page
+      // Cover Page - Aged Leather/Fabric Look
       return (
-        <div className="flex-1 flex flex-col items-center justify-center text-center p-6 border-r-2 border-amber-900/10">
-          <motion.div 
-            animate={{ scale: [1, 1.1, 1] }}
-            transition={{ repeat: Infinity, duration: 2 }}
-            className="mb-4"
-          >
-            <Heart size={80} className="text-blue-500 fill-blue-500 drop-shadow-lg" />
-          </motion.div>
+        <div className="flex-1 flex flex-col items-center justify-center text-center p-6 border-r-2 border-amber-900/30 relative bg-[#451a03]">
+          {/* Leather texture overlay */}
+          <div className="absolute inset-0 opacity-30 mix-blend-overlay" style={{ backgroundImage: 'url("https://www.transparenttextures.com/patterns/leather.png")' }} />
           
-          <h2 className="text-4xl font-handwriting text-amber-900 mb-1">Nosso Álbum</h2>
-          <div className="h-px w-24 bg-amber-900/20 mb-4 mx-auto" />
+          <Ribbon />
           
-          <p className="text-2xl font-handwriting text-blue-600 italic">{COUPLE_NAMES}</p>
-          
-          <div className="mt-8 flex gap-1.5">
-            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-40" />
-            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-60" />
-            <Heart size={12} className="text-blue-400 fill-blue-400 opacity-40" />
+          <div className="relative z-10">
+            <motion.div 
+              animate={{ scale: [1, 1.1, 1] }}
+              transition={{ repeat: Infinity, duration: 2 }}
+              className="mb-4"
+            >
+              <Heart size={80} className="text-blue-400 fill-blue-400 drop-shadow-[0_0_15px_rgba(96,165,250,0.5)]" />
+            </motion.div>
+            
+            <h2 className="text-4xl font-handwriting text-amber-100 mb-1 drop-shadow-md">Nosso Álbum</h2>
+            <div className="h-px w-24 bg-amber-100/30 mb-4 mx-auto" />
+            
+            <p className="text-2xl font-handwriting text-blue-300 italic drop-shadow-sm">{COUPLE_NAMES}</p>
+            
+            <div className="mt-8 flex gap-1.5 justify-center">
+              <Heart size={12} className="text-blue-400 fill-blue-400 opacity-60" />
+              <Heart size={12} className="text-blue-400 fill-blue-400 opacity-80" />
+              <Heart size={12} className="text-blue-400 fill-blue-400 opacity-60" />
+            </div>
+            
+            <p className="mt-10 text-[10px] text-amber-100/40 uppercase tracking-[0.3em] font-bold">Deslize para abrir</p>
           </div>
-          
-          <p className="mt-10 text-[10px] text-amber-900/30 uppercase tracking-[0.3em] font-bold">Deslize para abrir</p>
         </div>
       );
     }
@@ -160,12 +191,13 @@ export const BookGallery: React.FC = () => {
             dragElastic={0.2}
             onDragEnd={onDragEnd}
             style={{ x: dragX, transformOrigin: direction > 0 ? "left center" : "right center" }}
-            className="absolute inset-0 bg-[#fdfaf1] rounded-lg shadow-[20px_0_50px_rgba(0,0,0,0.3)] border-l-8 border-amber-900/20 overflow-hidden flex flex-col cursor-grab active:cursor-grabbing"
+            className={`absolute inset-0 rounded-lg shadow-[20px_0_50px_rgba(0,0,0,0.4)] border-l-[12px] border-amber-950/40 overflow-hidden flex flex-col cursor-grab active:cursor-grabbing ${currentPage === 0 ? 'bg-[#451a03]' : 'bg-[#fdfaf1]'}`}
           >
+            <PageStack />
             <PaperTexture />
             
             {/* Spine Shadow Effect */}
-            <div className="absolute left-0 top-0 bottom-0 w-8 bg-gradient-to-r from-black/10 to-transparent pointer-events-none" />
+            <div className="absolute left-0 top-0 bottom-0 w-12 bg-gradient-to-r from-black/30 to-transparent pointer-events-none z-20" />
             
             {renderPageContent()}
 
