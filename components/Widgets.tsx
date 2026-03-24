@@ -324,7 +324,7 @@ export const WordGameWidget: React.FC = () => {
             setTimeout(() => {
                 setIsError(false);
                 setGuess("");
-            }, 1000);
+            }, 4000);
         }
     };
 
@@ -394,7 +394,6 @@ export const WordGameWidget: React.FC = () => {
                             OK
                         </button>
                     </div>
-                    <p className="text-[10px] text-blue-300/50 uppercase tracking-tighter">Dica: {hints[0]}</p>
                 </div>
             )}
         </motion.div>
