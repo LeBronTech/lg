@@ -99,7 +99,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 7, url: IMAGES.basilica, caption: "Basílica" },
 ];
 
-export const WORD_GAME_SECRET = "VIDA";
+export const WORD_GAME_SECRET = "meu bem";
 
 export const LOVE_PHRASES = [
   "A nossa vida começou quando nos encontramos… e que loucura boa viver isso juntos 💙",

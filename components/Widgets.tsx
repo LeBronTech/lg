@@ -290,58 +290,114 @@ export const PlacesTimelineWidget: React.FC = () => {
 export const WordGameWidget: React.FC = () => {
     const [guess, setGuess] = useState("");
     const [status, setStatus] = useState<'playing' | 'won' | 'lost'>('playing');
+    const [hintIndex, setHintIndex] = useState(0);
+    const [isError, setIsError] = useState(false);
+    const [winCount, setWinCount] = useState(0);
+
+    const hints = [
+        "É como eu te chamo carinhosamente...",
+        "São duas palavras...",
+        "Começa com 'M' e termina com 'M'...",
+        "Dica final: 'meu ...'"
+    ];
+
+    useEffect(() => {
+        const savedWins = localStorage.getItem('word_game_wins');
+        if (savedWins) {
+            const count = parseInt(savedWins, 10);
+            setWinCount(count);
+            if (count > 0) {
+                setStatus('won');
+            }
+        }
+    }, []);
 
     const handleGuess = () => {
-        if (guess.toUpperCase() === WORD_GAME_SECRET) {
+        if (guess.toLowerCase().trim() === WORD_GAME_SECRET.toLowerCase()) {
+            const newCount = winCount + 1;
+            setWinCount(newCount);
+            localStorage.setItem('word_game_wins', newCount.toString());
             setStatus('won');
         } else {
-            setGuess("");
-            // Simple visual shake or feedback could go here
-            alert("Tente novamente! Dica: É o que eu quero com você...");
+            setIsError(true);
+            setHintIndex((prev) => Math.min(prev + 1, hints.length - 1));
+            setTimeout(() => {
+                setIsError(false);
+                setGuess("");
+            }, 1000);
         }
     };
 
+    const getWinMessage = () => {
+        if (winCount === 1) return "Você ganhou um beijo! 💋";
+        if (winCount === 2) return "aaa espertinha vc ja acertou mas ganhou outro beijo 💋";
+        if (winCount === 3) return "ta querendo mais um? 💋";
+        return "tabom eu ja nao tenho mais frases ganhou mil milhoes de beijos 💋";
+    };
+
     return (
-        <div className="bg-gradient-to-r from-blue-900 to-slate-900 rounded-2xl p-5 mb-6 text-center border border-white/10">
-            <h3 className="text-white font-bold text-lg mb-1">Jogo de Palavras</h3>
-            <p className="text-blue-200 text-xs mb-4">Adivinhe a palavra secreta</p>
+        <motion.div 
+            animate={{ 
+                backgroundColor: isError ? "rgba(236, 72, 153, 0.8)" : "rgba(30, 58, 138, 0.9)" 
+            }}
+            transition={{ duration: 0.3 }}
+            className="rounded-2xl p-5 mb-6 text-center border border-white/10 shadow-xl overflow-hidden relative"
+        >
+            <h3 className="text-white font-bold text-lg mb-1">Qual a palavra secreta</h3>
+            <p className="text-blue-200 text-xs mb-4">Adivinhe para ganhar um prêmio</p>
 
             {status === 'won' ? (
                 <div className="py-4 animate-slide-up bg-white/5 rounded-xl border border-white/10">
                     <Heart className="mx-auto text-pink-500 fill-pink-500 mb-2 animate-bounce" size={40} />
                     <p className="text-xl font-bold text-white mb-1">Parabéns!</p>
-                    <p className="text-lg text-blue-200 font-semibold">Você ganhou um beijo! 💋</p>
-                    <p className="text-xs text-gray-400 mt-2">A resposta era {WORD_GAME_SECRET}</p>
+                    <p className="text-lg text-blue-100 font-handwriting px-4 leading-tight">
+                        {getWinMessage()}
+                    </p>
+                    <button 
+                        onClick={() => {
+                            setStatus('playing');
+                            setGuess("");
+                        }}
+                        className="mt-4 text-[10px] text-blue-300 underline uppercase tracking-widest opacity-50 hover:opacity-100"
+                    >
+                        Tentar novamente?
+                    </button>
                 </div>
             ) : (
                 <div className="space-y-3">
-                    <div className="flex justify-center gap-1 mb-2">
-                        {WORD_GAME_SECRET.split('').map((_, i) => (
-                            <div key={i} className="w-8 h-10 border-b-2 border-white/30 flex items-center justify-center text-lg font-bold">
-                                {guess[i] || ""}
-                            </div>
-                        ))}
-                    </div>
-                    
+                    <AnimatePresence mode="wait">
+                        {isError && (
+                            <motion.p 
+                                initial={{ opacity: 0, y: 10 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={{ opacity: 0, y: -10 }}
+                                className="text-white font-bold text-sm bg-black/20 py-1 rounded-lg mb-2"
+                            >
+                                {hints[hintIndex - 1] || "Tente novamente!"}
+                            </motion.p>
+                        )}
+                    </AnimatePresence>
+
                     <div className="flex gap-2">
                         <input 
                             type="text" 
-                            maxLength={WORD_GAME_SECRET.length}
                             value={guess}
-                            onChange={(e) => setGuess(e.target.value.toUpperCase())}
-                            className="bg-white/10 border border-white/20 rounded-lg px-3 py-2 text-white w-full outline-none focus:border-blue-500 uppercase tracking-widest text-center text-sm"
-                            placeholder="???"
+                            onChange={(e) => setGuess(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleGuess()}
+                            className="bg-white/10 border border-white/20 rounded-lg px-3 py-3 text-white w-full outline-none focus:border-blue-500 text-center text-sm placeholder:text-white/20"
+                            placeholder="Escreva aqui..."
                         />
                         <button 
                             onClick={handleGuess}
-                            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg font-bold text-sm transition-colors"
+                            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-bold text-sm transition-colors shadow-lg active:scale-95"
                         >
                             OK
                         </button>
                     </div>
+                    <p className="text-[10px] text-blue-300/50 uppercase tracking-tighter">Dica: {hints[0]}</p>
                 </div>
             )}
-        </div>
+        </motion.div>
     );
 };
 
