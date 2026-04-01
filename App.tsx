@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { PlayCircle, Share2, MoreHorizontal, X, Music, ExternalLink } from 'lucide-react';
-import { COUPLE_NAMES, LOVE_PHRASES } from './constants';
+import { COUPLE_NAMES, LOVE_PHRASES, START_DATE } from './constants';
 import MusicBar from './components/MusicBar';
 import { RelationshipTimer, TimelineWidget, PlacesTimelineWidget, WordGameWidget, ContractWidget } from './components/Widgets';
 import { BookGallery } from './components/BookGallery';
 import { useBackHandler } from './hooks/useBackHandler';
+import confetti from 'canvas-confetti';
 
 const FloatingHearts = () => {
     // Generate an array of random positions for hearts
@@ -86,21 +87,90 @@ const CarouselCard = () => {
 const App: React.FC = () => {
   const [showFullHero, setShowFullHero] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
+  const [isAnniversary, setIsAnniversary] = useState(false);
+  const [monthsCount, setMonthsCount] = useState(0);
+  
   useBackHandler(showFullHero, () => setShowFullHero(false));
   const heroImage = "https://iili.io/qJbwiNt.jpg";
   const logoImage = "https://iili.io/qJbDx6v.png";
   const playlistLink = "https://music.youtube.com/playlist?list=PLywkCchL3xu0hOF0xcwFdw31wqKJ3hH2y&jct=fXCYyVm59dhHIu-K081d7Q";
 
+  useEffect(() => {
+    const now = new Date();
+    const start = new Date(START_DATE);
+    
+    // Check if it's the 1st of the month (anniversary day)
+    if (now.getDate() === start.getDate()) {
+        let months = (now.getFullYear() - start.getFullYear()) * 12;
+        months += now.getMonth() - start.getMonth();
+        
+        if (months > 0) {
+            setIsAnniversary(true);
+            setMonthsCount(months);
+            
+            // Trigger confetti and hearts explosion
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+            const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 100 };
+
+            const randomInRange = (min: number, max: number) => Math.random() * (max - min) + min;
+
+            const interval: any = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+
+                if (timeLeft <= 0) {
+                    return clearInterval(interval);
+                }
+
+                const particleCount = 50 * (timeLeft / duration);
+                
+                // Confetti
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 }
+                });
+                confetti({
+                    ...defaults,
+                    particleCount,
+                    origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 }
+                });
+                
+                // Blue Hearts (using custom shapes or just blue colors)
+                confetti({
+                    ...defaults,
+                    particleCount: 10,
+                    colors: ['#3b82f6', '#60a5fa', '#93c5fd'],
+                    shapes: ['circle'], // Confetti doesn't have heart shape by default easily without complex setup, but we can use blue colors
+                    origin: { x: Math.random(), y: Math.random() - 0.2 }
+                });
+            }, 250);
+        }
+    }
+  }, []);
+
   if (!hasStarted) {
     return (
-      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6">
-        <div className="max-w-md w-full text-center animate-in fade-in zoom-in duration-700">
+      <div className="min-h-screen bg-black text-white flex items-center justify-center p-6 overflow-hidden relative">
+        {/* Background Hearts for Anniversary */}
+        {isAnniversary && <FloatingHearts />}
+        
+        <div className="max-w-md w-full text-center animate-in fade-in zoom-in duration-700 relative z-10">
             <div className="relative mb-8">
                 <div className="absolute inset-0 bg-blue-500 blur-3xl opacity-20 rounded-full animate-pulse"></div>
                 <img src={logoImage} alt="Logo" className="w-32 h-32 object-contain mx-auto relative z-10 drop-shadow-2xl" />
             </div>
             <h1 className="text-4xl font-handwriting font-bold mb-4 text-white">{COUPLE_NAMES}</h1>
             <p className="text-blue-200 mb-8 font-medium italic">"Onde cada detalhe conta a nossa história..."</p>
+            
+            {isAnniversary && (
+                <div className="mb-6 animate-bounce">
+                    <p className="text-2xl font-handwriting text-blue-400 drop-shadow-[0_0_10px_rgba(59,130,246,0.5)]">
+                        Feliz {monthsCount} {monthsCount === 1 ? 'mês' : 'meses'} de namoro! 💙
+                    </p>
+                </div>
+            )}
+
             <button 
                 onClick={() => setHasStarted(true)}
                 className="bg-white text-black px-10 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(255,255,255,0.3)] hover:scale-105 active:scale-95 transition-all flex items-center gap-2 mx-auto"
@@ -124,7 +194,7 @@ const App: React.FC = () => {
         <div className="w-full h-12 flex justify-between items-center px-6 text-xs font-bold text-blue-200/50 z-20 relative">
              <span></span> {/* Removed Time */}
              <span className="text-blue-400">Futuro juntos 💙</span>
-             <MoreHorizontal size={16} />
+             <div className="w-4"></div> {/* Placeholder to maintain spacing */}
         </div>
 
         {/* Main Content Scrollable */}

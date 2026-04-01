@@ -115,3 +115,30 @@ export const LOVE_PHRASES = [
   "O amor é azulzinho 💙",
   "Se vc não existisse eu te inventava 💙"
 ];
+
+export const BODAS_NAMORO: Record<number, string> = {
+  1: "Bodas de Beijinhos",
+  2: "Bodas de Sorvete",
+  3: "Bodas de Algodão-Doce",
+  4: "Bodas de Pipoca",
+  5: "Bodas de Chocolate",
+  6: "Bodas de Sonhos",
+  7: "Bodas de Sentimentos",
+  8: "Bodas de Pominhos",
+  9: "Bodas de Pirulitos",
+  10: "Bodas de Pintinhos",
+  11: "Bodas de Chicletes",
+  12: "Bodas de Milagre",
+  13: "Bodas de Linho",
+  14: "Bodas de Marfim",
+  15: "Bodas de Cristal",
+  16: "Bodas de Turmalina",
+  17: "Bodas de Rosa",
+  18: "Bodas de Turquesa",
+  19: "Bodas de Cretone",
+  20: "Bodas de Porcelana",
+  21: "Bodas de Carvalho",
+  22: "Bodas de Cedro",
+  23: "Bodas de Palha",
+  24: "Bodas de Quartzo",
+};

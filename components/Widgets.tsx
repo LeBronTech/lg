@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES, COUPLE_NAMES } from '../constants';
+import { START_DATE, TIMELINE_EVENTS, MAP_LOCATIONS, WORD_GAME_SECRET, GALLERY_IMAGES, COUPLE_NAMES, BODAS_NAMORO } from '../constants';
 import { Heart, MapPin, Star, Camera, Phone, Users, Unlock, X, Maximize2, Calendar, Fingerprint, FileSignature, CheckCircle2, ZoomIn, ZoomOut, ChevronRight, ChevronLeft, BookOpen } from 'lucide-react';
 import { TimelineEvent, MapLocation, GalleryImage } from '../types';
 import { TransformWrapper, TransformComponent } from "react-zoom-pan-pinch";
@@ -10,6 +10,8 @@ import { motion, AnimatePresence } from 'motion/react';
 export const RelationshipTimer: React.FC = () => {
     const [time, setTime] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
     const [isFuture, setIsFuture] = useState(false);
+    const [monthsElapsed, setMonthsElapsed] = useState(0);
+    const [monthsDecimal, setMonthsDecimal] = useState("0.0");
 
     useEffect(() => {
         const calculateTime = () => {
@@ -29,6 +31,26 @@ export const RelationshipTimer: React.FC = () => {
             const seconds = Math.floor((absDiff % (1000 * 60)) / 1000);
 
             setTime({ days, hours, minutes, seconds });
+
+            // Calculate months for Bodas and Decimal display
+            if (diff <= 0) {
+                let years = now.getFullYear() - start.getFullYear();
+                let months = now.getMonth() - start.getMonth();
+                
+                // Adjust if current day is before start day
+                if (now.getDate() < start.getDate()) {
+                    months--;
+                }
+
+                if (months < 0) {
+                    years--;
+                    months += 12;
+                }
+
+                // Format as Years.Months (e.g., 0.1 for 1 month, 1.2 for 1 year 2 months)
+                setMonthsDecimal(`${years}.${months}`);
+                setMonthsElapsed(years * 12 + months);
+            }
         };
 
         const timer = setInterval(calculateTime, 1000);
@@ -47,7 +69,7 @@ export const RelationshipTimer: React.FC = () => {
         <div className="bg-[#1A1A1A] rounded-2xl p-4 mb-6 border border-white/5 w-full">
             <h3 className="text-blue-400 font-bold mb-3 flex items-center justify-center gap-2 text-center leading-tight">
                 <Heart size={16} className="fill-blue-400 flex-shrink-0" /> 
-                {isFuture ? "Contagem regressiva para o nosso Sim" : "Namorando há..."}
+                {isFuture ? "Contagem regressiva para o nosso Sim" : `Namorando há ${monthsDecimal} ${monthsElapsed === 1 ? 'mês' : 'meses'}`}
             </h3>
             <div className="flex justify-center gap-3">
                 <TimeUnit val={time.days} label="Dias" />
@@ -55,10 +77,20 @@ export const RelationshipTimer: React.FC = () => {
                 <TimeUnit val={time.minutes} label="Min" />
                 <TimeUnit val={time.seconds} label="Seg" />
             </div>
+            
             {!isFuture && (
-                <p className="text-center text-xs text-gray-500 mt-3 animate-pulse px-4">
-                    Cada dia ao teu lado, é uma nova oportunidade de ser o casal mais brega do mundo 💙
-                </p>
+                <div className="mt-4 flex flex-col items-center">
+                    {monthsElapsed > 0 && (
+                        <div className="bg-blue-500/10 border border-blue-500/20 rounded-full px-4 py-1 mb-2 animate-bounce">
+                            <span className="text-blue-300 text-xs font-bold uppercase tracking-widest">
+                                ✨ {BODAS_NAMORO[monthsElapsed] || `${monthsElapsed} Meses`} ✨
+                            </span>
+                        </div>
+                    )}
+                    <p className="text-center text-xs text-gray-500 animate-pulse px-4">
+                        Cada dia ao teu lado, é uma nova oportunidade de ser o casal mais brega do mundo 💙
+                    </p>
+                </div>
             )}
         </div>
     );
