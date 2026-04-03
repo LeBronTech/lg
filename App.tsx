@@ -158,7 +158,7 @@ const App: React.FC = () => {
         <div className="max-w-md w-full text-center animate-in fade-in zoom-in duration-700 relative z-10">
             <div className="relative mb-8">
                 <div className="absolute inset-0 bg-blue-500 blur-3xl opacity-20 rounded-full animate-pulse"></div>
-                <img src={logoImage} alt="Logo" className="w-32 h-32 object-contain mx-auto relative z-10 drop-shadow-2xl" />
+                <img src={logoImage} alt="Logo" className="w-32 h-32 object-contain mx-auto relative z-10 drop-shadow-2xl" referrerPolicy="no-referrer" />
             </div>
             <h1 className="text-4xl font-handwriting font-bold mb-4 text-white">{COUPLE_NAMES}</h1>
             <p className="text-blue-200 mb-8 font-medium italic">"Onde cada detalhe conta a nossa história..."</p>
@@ -218,7 +218,7 @@ const App: React.FC = () => {
                     
                     {/* Content Section */}
                     <div className="p-6 flex flex-col items-center text-center">
-                         <img src={logoImage} alt="Logo" className="w-16 h-16 object-contain drop-shadow-md mb-2" />
+                         <img src={logoImage} alt="Logo" className="w-16 h-16 object-contain drop-shadow-md mb-2" referrerPolicy="no-referrer" />
                          <h2 className="text-5xl font-handwriting font-bold drop-shadow-lg text-white tracking-wide mb-4">{COUPLE_NAMES}</h2>
                          
                          <RelationshipTimer />
@@ -285,6 +285,7 @@ const App: React.FC = () => {
                     alt="Couple Fullscreen" 
                     className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl scale-100" 
                     onClick={(e) => e.stopPropagation()} 
+                    referrerPolicy="no-referrer"
                 />
             </div>
         )}

@@ -24,6 +24,7 @@ const IMAGES = {
   providencia: "https://iili.io/qnZm1LB.jpg",
   caminhada: "https://iili.io/qnt3aWJ.jpg",
   basilica: "https://iili.io/qVCgxee.jpg",
+  firstMonth: "https://iili.io/Bow4NWP.jpg",
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -75,6 +76,14 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     icon: 'heart',
     image: IMAGES.caminhada
   },
+  { 
+    id: 7, 
+    date: "01 Abr 2026", 
+    title: "Nosso primeiro mês juntos", 
+    description: "Um mês de muito amor, aprendizado e a certeza de que quero passar todos os outros meses ao seu lado. Feliz Bodas de Beijinhos! 💙", 
+    icon: 'star',
+    image: IMAGES.firstMonth
+  },
 ];
 
 // Locations approx:
@@ -97,6 +106,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 4, url: IMAGES.eternity, caption: "Início da Eternidade" },
   { id: 6, url: IMAGES.providencia, caption: "Nossa Sra. da Providência" },
   { id: 7, url: IMAGES.basilica, caption: "Basílica" },
+  { id: 8, url: IMAGES.firstMonth, caption: "Nosso primeiro mês juntos" },
 ];
 
 export const WORD_GAME_SECRET = "meu bem";

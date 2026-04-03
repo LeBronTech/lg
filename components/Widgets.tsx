@@ -148,7 +148,7 @@ export const TimelineWidget: React.FC = () => {
                                 {event.image && (
                                     <div className="w-full aspect-[21/9] rounded-lg overflow-hidden mb-3 relative">
                                         <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent z-10" />
-                                        <img src={event.image} alt={event.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" />
+                                        <img src={event.image} alt={event.title} className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500" referrerPolicy="no-referrer" />
                                     </div>
                                 )}
                                 
@@ -190,6 +190,7 @@ export const TimelineWidget: React.FC = () => {
                                         src={selectedEvent.image} 
                                         alt={selectedEvent.title} 
                                         className="w-full h-auto object-contain bg-black" 
+                                        referrerPolicy="no-referrer"
                                     />
                                     
                                     {/* Overlay Gradient for text readability if text overlaps, though layout below handles it too */}
@@ -259,7 +260,7 @@ export const PlacesTimelineWidget: React.FC = () => {
                             )}
                             <div className="w-12 h-12 rounded-lg overflow-hidden flex-shrink-0 bg-zinc-800 flex items-center justify-center">
                                 {loc.image ? (
-                                    <img src={loc.image} alt={loc.name} className="w-full h-full object-cover" />
+                                    <img src={loc.image} alt={loc.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                 ) : (
                                     <MapPin size={20} className="text-blue-500/50" />
                                 )}
@@ -299,7 +300,7 @@ export const PlacesTimelineWidget: React.FC = () => {
                         
                         {selectedLocation.image ? (
                             <div className="w-full aspect-square overflow-hidden">
-                                <img src={selectedLocation.image} alt={selectedLocation.name} className="w-full h-full object-cover" />
+                                <img src={selectedLocation.image} alt={selectedLocation.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                             </div>
                         ) : (
                             <div className="w-full aspect-video bg-blue-500/10 flex items-center justify-center">
@@ -555,7 +556,7 @@ export const GalleryWidget: React.FC = () => {
                                                     className="relative flex-1 rounded-lg overflow-hidden shadow-md border border-black/5 group cursor-pointer"
                                                     onClick={() => setSelectedImage(img)}
                                                 >
-                                                    <img src={img.url} alt={img.caption} className="w-full h-full object-cover" />
+                                                    <img src={img.url} alt={img.caption} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
                                                     <div className="absolute bottom-0 left-0 right-0 bg-black/60 backdrop-blur-sm p-2">
                                                         <p className="text-[10px] text-white font-medium text-center italic">{img.caption}</p>
                                                     </div>
@@ -607,6 +608,7 @@ export const GalleryWidget: React.FC = () => {
                         alt={selectedImage.caption} 
                         className="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" 
                         onClick={(e) => e.stopPropagation()} 
+                        referrerPolicy="no-referrer"
                     />
                     <div className="absolute bottom-10 left-0 right-0 text-center pointer-events-none">
                         <p className="text-white font-bold text-xl drop-shadow-lg bg-black/50 inline-block px-4 py-2 rounded-full backdrop-blur-sm">
