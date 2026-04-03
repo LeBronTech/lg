@@ -25,6 +25,7 @@ const IMAGES = {
   caminhada: "https://iili.io/qnt3aWJ.jpg",
   basilica: "https://iili.io/qVCgxee.jpg",
   firstMonth: "https://iili.io/Bow4NWP.jpg",
+  esrufa: "https://iili.io/Bop9W37.jpg",
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -96,6 +97,7 @@ export const MAP_LOCATIONS: MapLocation[] = [
   { id: 7, name: "Zoológico de Brasília", description: "Passeio especial", status: 'visited', coords: { x: 60, y: 30 } },
   { id: 8, name: "Paróquia N.S. de Fátima", description: "Nossa primeira missão juntos", status: 'visited', coords: { x: 20, y: 50 } }, 
   { id: 9, name: "Basílica", description: "Nossa primeira vigília juntos", image: IMAGES.basilica, status: 'visited', coords: { x: 70, y: 40 } },
+  { id: 10, name: "Esrufa", description: "Um lugar especial em Valparaíso, GO", image: IMAGES.esrufa, status: 'visited', coords: { x: 30, y: 60 } },
 ];
 
 export const GALLERY_IMAGES: GalleryImage[] = [
@@ -107,6 +109,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 6, url: IMAGES.providencia, caption: "Nossa Sra. da Providência" },
   { id: 7, url: IMAGES.basilica, caption: "Basílica" },
   { id: 8, url: IMAGES.firstMonth, caption: "Nosso primeiro mês juntos" },
+  { id: 9, url: IMAGES.esrufa, caption: "Esrufa - Valparaíso, GO" },
 ];
 
 export const WORD_GAME_SECRET = "meu bem";
