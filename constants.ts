@@ -26,6 +26,7 @@ const IMAGES = {
   basilica: "https://iili.io/qVCgxee.jpg",
   firstMonth: "https://iili.io/Bow4NWP.jpg",
   estufa: "https://iili.io/Bop9W37.jpg",
+  viaSacra: "https://iili.io/BIAQWGe.jpg",
 };
 
 export const TIMELINE_EVENTS: TimelineEvent[] = [
@@ -85,6 +86,14 @@ export const TIMELINE_EVENTS: TimelineEvent[] = [
     icon: 'star',
     image: IMAGES.firstMonth
   },
+  { 
+    id: 8, 
+    date: "03 Abr 2026", 
+    title: "Primeira Via Sacra juntos", 
+    description: "Um momento de profunda oração e reflexão. Caminhar ao seu lado na Via Sacra foi uma experiência espiritual única que guardarei com carinho.", 
+    icon: 'users',
+    image: IMAGES.viaSacra
+  },
 ];
 
 // Locations approx:
@@ -110,6 +119,7 @@ export const GALLERY_IMAGES: GalleryImage[] = [
   { id: 7, url: IMAGES.basilica, caption: "Basílica" },
   { id: 8, url: IMAGES.firstMonth, caption: "Nosso primeiro mês juntos" },
   { id: 9, url: IMAGES.estufa, caption: "Estufa - Valparaíso, GO" },
+  { id: 10, url: IMAGES.viaSacra, caption: "Primeira Via Sacra juntos" },
 ];
 
 export const WORD_GAME_SECRET = "meu bem";
